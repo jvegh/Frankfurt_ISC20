@@ -15,7 +15,7 @@
 	However,} as was very early predicted~\cite{AmdahlSingleProcessor67} and decades later
 	experimentally confirmed~\cite{ScalingParallel:1993},
 	the scaling of the parallelized computing is not linear.
-	Even, "\textit{there comes a point when using more processors \dots actually increases the execution time rather than reducing it}"~\cite{ScalingParallel:1993}. The parallelization
+	Even, as it was predicted, "\textit{there comes a point when using more processors \dots actually increases the execution time rather than reducing it}"~\cite{ScalingParallel:1993}. The parallelization
 	operation has its own rules of game and has its inherent
 	performance limitations~\cite{VeghPerformanceWall:2019,VeghRoofline:2019}.
 \articleonly{	The present commonly used computing paradigm (and its technical implementation) also limits the performance of supercomputers~\cite{VeghModernParadigm:2019}.
@@ -31,12 +31,12 @@ The expectations against supercomputers are excessive.
 Although even the Eflops payload performance has not yet been achieved, already the implementation of the Zflops supercomputers are planned~\cite{ChinaExascale:2018,ExascaleGrandfatherHPC:2019}.
 It looks like that in the feasibility studies  an analysis
 whether some inherent performance bound exists remained out of sight either in USA~\cite{NSA_DOE_HPC_Report_2016,Scienceexascale:2018} or in  EU~\cite{EUActionPlan:2016}
-or in Japan~\cite{JapanExascale:2018} or in China~\cite{ChinaExascale:2018}.
+or in Japan~\cite{JapanExascale:2018} or in China~\cite{ChinaExascale:2018}; although serious counter-arguments are also listed~\cite{WhyNotExascale:2014}.
  The confusion is growing:
 some "must work" world-class supercomputers (like Gyoukou, Aurora, SpiNNaker) are failed.
 In addition to the previously existing "\textit{two different efficiencies of supercomputers}"~\cite{DifferentBenchmarks:2017}
-further efficiency/performance value appeared\footnote{https://blogs.nvidia.com/blog/2019/06/17/hpc-ai-performance-record-summit/ (and several more
-can easily be derived).}
+further efficiency/performance value appeared\footnote{https://blogs.nvidia.com/blog/2019/06/17/hpc-ai-performance-record-summit/} (and several more
+can easily be derived).
 	\MEfigure{fig/Top500Performance2018.pdf}
 {The performances at the beginning of 2018~\cite{ChinaExascale:2018} }
 {fig:PEZYfraud}{}{}
@@ -46,7 +46,7 @@ can easily be derived).}
 \MEframe{Take care, ignorance is punished\dots (in Japan)}
 {
 	\articleonly{
-	Ingnorance in this fields is dangerous: "\textit{In December 2017, PEZY President Motoaki Saito, and PEZY employee, Daisuke Suzuki, were arrested on a charges of fraud – that is – padding expenses}"\footnote{https://en.wikipedia.org/wiki/PEZY\_Computing}.
+	Ignorance in this fields is dangerous: "\textit{In December 2017, PEZY President Motoaki Saito, and PEZY employee, Daisuke Suzuki, were arrested on a charges of fraud – that is – padding expenses}"\footnote{https://en.wikipedia.org/wiki/PEZY\_Computing}.
 	They were neither beginners nor outsiders: "\textit{In 2015, computers using PEZY processors occupied the top 3 slots on the Green 500 supercomputer list}".
 	In Japan, the company PEZY\footnote{BTW: The name \textbf{PEZY} is an acronym derived from the Greek derived metric prefixs \textbf{p}eta-, \textbf{e}xa-, \textbf{z}etta-, and \textbf{y}otta} expected infinitely large parallelized computing performance. 
 	Accordingly they assumed (and announced in advance) that Japan will have the \#1 supercomputer, with about 0.13~Eflops.
@@ -69,17 +69,18 @@ can easily be derived).}
 	\articleonly{
 	The same happened with the Aurora'18 in the US.
 (The Intel-Cray Aurora supercomputer which was planned for 2018 has been shifted to 2021, scaling up its performance from 180 petaFLOPS to 1 exaFLOPS\footnote{https://fuse.wikichip.org/news/478/intel-axes-knights-hill-plans-a-new-microarchitecture-for-exascale/}).
-Initially it was communicated that "Aurora was retargeted"\cite{DOEAurora:2017}  and that "DOE Witholds Details of First Exascale Supercomputer, Even as it Solicits Researchers to Apply for Early Access"~\cite{AuroraEarlyScience:2017}.
+Initially it was communicated that "\textit{Aurora was retargeted}"\cite{DOEAurora:2017},
+just weeks before its announced startup time, and that "\textit{DOE Witholds Details of First Exascale Supercomputer, Even as it Solicits Researchers to Apply for Early Access}"~\cite{AuroraEarlyScience:2017}.
+Intel learned the lesson\footnote{https://itpeernetwork.intel.com/unleashing-high-performance-computing/}: "\textit{the company would be replacing the next-gen Phi (Knights Hill) with “a new platform and new microarchitecture specifically designed for exascale“.}" Because the single thread optimized processor cannot be optimized for many-processor environment.
 For today it was quietly admitted that "Aurora failed".
 
 
  The same is happening today with the "mystic China supercomputers "\footnote{https://www.scmp.com/tech/policy/article/3015997/china-has-decided-not-fan-flames-super-computing-rivalry-amid-us}
 expected to deliver 0.2~Eflops payload performance.
-This is expected also be the fate ot the planned EU supercomputers expected to deliver 0.13-0.18~Eflops.	
- The new EU supercomputers are positioned in the "death zone", see Fig.~\ref{fig:EuroHPC}.
+This is expected also be the fate of the planned EU supercomputers expected to deliver 0.13-0.18~Eflops: they are positioned in the "death zone", see Fig.~\ref{fig:EuroHPC}.
 
-The exa-scale race is going on~\cite{ExaSclaRace:2018},
-without making the rules of the game clear. This is the target of this tutorial.
+The exa-scale race is going on~\cite{ScienceExascaleRace:2010,DongarraExascaleRace:2017,ExaScaleRace:2018},
+without seeing the rules of the game clear. This is the target of this tutorial.
 	}
 	\MEfigure{fig/EuroHPC}
 {The planned EU supercomputers are in the "death zone"}
@@ -90,24 +91,24 @@ without making the rules of the game clear. This is the target of this tutorial.
 \MEframe{The outline of the lessons}
 {
 	\begin{itemize}
-		\item Lesson 1 recalls the general limitations affecting
+		\item Lesson B1 recalls the general limitations affecting
 		supercomputers based on parallelized sequential processing, 
 		as concluded from the model of parallelization.
 		Some numerical values of the limiting parameters of the technical implementations are presented.
-		\item Lesson 2 studies the history of the supercomputing using
+		\item Lesson b2 studies the history of the supercomputing using
 		the database TOP500 through calculating the "effective parallelization", and provides evidence that Amdahl's Law directs
-		the history of parallelized sequential computing. It makes clear that the resulting parallel performance has stalled
-		\item Lesson 3 scrutinizes benchmarking: what bechmarks measure, 
+		the history of parallelized sequential computing. It makes clear that the resulting parallel performance has stalled.
+		\item Lesson B3 scrutinizes benchmarking: what bechmarks measure, 
 		why computers have different efficiencies, how the workflow 
 		affects supercomputer performance. The effect of different technical implementations
-		(including GPGPU acceleration, half precision, OpenCAPI bus and interconnection quality) will also be demonstrated
-		\item In lesson 4 the parallel with the modern science is completed:
+		(including GPGPU acceleration, half precision, OpenCAPI bus and interconnection quality) will also be demonstrated.
+		\item In lesson B4 the parallel with the modern science is completed:
 		the "quantal nature of time" and "communicational collapse" 
 		will be intrduced and a surprising parallel between measuring
 		quantum states and measuring supercomputer performances
-		will be drawn. Given that the
+		will be drawn. \textit{Given that the
 		major contributor to the non-parallelizable portion of the task
-		is the computation/communication itself, the further technical enhancement, without changing the principle of computation is "mission impossible": only increase the "dark performance" of the computing systems with extreme size.		
+		is the computation/communication itself, the further technical enhancement, without changing the principle of computation is "mission impossible"}: only increase the "dark performance" of the computing systems with extreme size.		
 		
 	\end{itemize}
 }
