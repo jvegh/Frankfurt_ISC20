@@ -1,0 +1,272 @@
+%%% This is the ISC-2020 Frankfurt 1st tutorial, A4
+
+\MEchapter[Modern computing]{Modern computing}
+\MESetListingFormat[basicstyle={\ttfamily\color{black}\normalsize}]{SystemC}
+
+%\subsubsection{Modern computing I 45+5'}
+%Some surprising parallels with
+%studying the nature under extreme conditions and using
+%computing under extreme conditions will be discovered and demonstrated
+%that the common reason of the similarity of the surprising
+%phenomena in those (apparently distant) field is
+%the nonlinearity in extrapolating our experiences to 
+%extreme parameter values. The goal for asking help from the science
+%is that the consequent use of the ideas above leads to
+%counter-intuitive conclusions and shocking results.
+%The case is very similar to the revolution of physics
+%more that hundred years ago: introducing the speed of light as 
+%a speed limit or  that some measurement cannot be carried out
+%\textit{at the same time} on a system.
+%It will be shown that Amdahl's Law introduces a very similar
+%performance limit for the parallelized sequentially working systems
+%that cannot be exceeded and that the same processor cannot be
+%equally good for single-thread performance and many-tasking performance. 
+
+
+\MEsection[Modern computing]{Modern computing}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\MEframe[shrink]{Modern computing}
+{
+\articleonly{} 
+
+\articleonly{
+}	
+	The context
+}% Lessons
+
+
+\MEchapter[Science]{Modern physics and computing}
+
+
+
+\MEsection{Role of science}
+\MEframe{Why to apply science}
+{% 
+	The physicists were in regard to the apparent conflict between the classic and modern (relativistic and quantum) physics at the beginning of the $20^{th}$ century: \textit{under extreme conditions qualitatively different/strange behaviors may be encountered}, and for explaining them, the \textit{formerly unnoticed or neglected aspects are to be reconsidered}.
+	Today computer scientists  experience \textbf{\textit{non-linearity of performance scaling}}  (among others).
+	
+	%\only<2->
+	{The analogies want to call the attention to both that
+		\textbf{\textit{under extreme conditions qualitatively different behavior may be encountered in both worlds}}, and
+		that \textit{extending the theory with respect to formerly unnoticed or neglected aspects enable to explain
+			the new phenomena}.}
+	
+	\only<2->{In contrast with the nature, \textbf{\textit{the technical world also enables making better computing through introducing enhanced computing paradigm and/or technology solutions}}.} 
+}  
+
+\MEframe{Why to apply science}
+{% 
+	The physical  world we live in is rather counter-intuitive to accept
+	that  as we move towards unusual conditions, \textit{\textbf{adding of speeds behaves differently}}; 
+	%when approaching the speed of light as well as that
+	the energy becomes discontinuous; the momentum and the position of a particle cannot be measured accurately at the same time.
+	
+	%\only<2->
+	{Similarly, in the world of computing, it is  counter-intuitive to accept that (i) -\textbf{\textit{in large parallelized sequential systems the payload performance deviates from the simple sum of the performance of the comprised single computers}}~\textbf{\cite{VeghPerformanceWall:2019}} (the phenomenon known as 'efficiency'~\cite{DifferentBenchmarks:2017})
+		(ii) -the length of the clock period has noticeable effect on the performance~\textbf{\cite{VeghPerformanceWall:2019,VeghBrainAmdahl:2019}}
+		(iii) -the 'built for speed' single processors with many registers, large cache, pipelining, accelerators, etc. considerably increase the latency time in many-many processor systems and  multi-tasking environment.}
+}
+
+
+\MEsection{The Light Speed}
+
+\MEframe{Analogy with the special relativity}
+{
+	%\footnote{ %Mentor Graphics:
+	%\url{http://blogs.scientificamerican.com/guest-blog/moore-s-law-and-the-future-of-solid-state-electronics/}}
+	\maxsizebox{\textwidth}{!}
+	{	
+		\begin{tabular}{|p{190pt}|p{190pt}|}
+			\hline
+			\hline
+			Physics & Computing\\
+			\hline
+			Adding of speeds &	Adding of performance\\
+			\hline
+			\textcolor{blue}{Classic} & \textcolor{blue}{Classic} \\
+			{\large $ v(t) = \textcolor{blue}{t\cdot a}$}
+			&
+			{\large $ Perf_{total}(N) = \textcolor{blue}{N\cdot P_{single}}$}	\\
+			\hline
+			t = time &  N = number of cores \\
+			\hline
+			a = acceleration & $P_{single} = $ Single-performance\\
+			\hline
+			\only<2->{		n = optical density}
+			&	\only<3->{\textcolor{red}{communication}}\\
+			\hline
+			\only<2->{c = Light Speed} &
+			\only<3->{\textcolor{red}{$\alpha$ = parallelism}}\\
+			\hline
+			
+			\only<2->{\textcolor{red}{ Modern (relativistic)}} &	\only<4->{{\textcolor{red}{Modern (Amdahl-aware)~\cite{VeghAlphaEff:2016}}}  }\\
+			
+			\only<2->				{\Large $ v(t) = \frac{t\cdot a}{\boxed{\textcolor{red}{\sqrt{1+\left(\frac{t\cdot a}{c/n}\right)^2}}}}$}
+			&
+			\only<4->	{\Large $ P(N) = \frac{N\cdot P_{single}}{\boxed{\textcolor{red}{N\cdot \left(1-\alpha\right)+\alpha}}}$}	
+			\\
+			\hline
+			\hline
+		\end{tabular}
+	}
+}
+
+\MEframe{Analogy with the relativistic speed addition}
+{%
+	\maxsizebox{\textwidth}{!}
+	{
+		\begin{tabular}{cc}
+			\only<1->
+			{\maxsizebox{.5\textwidth}{!}
+				{
+					
+					
+					\def\LightSpeed{3.e8}	% m/s
+					\def\Gravity{10.}		%m/s^2
+					\def\Speed{x*\Gravity}
+					\def\RelSpeedFactor{\Speed/(\LightSpeed/\Density)}
+					\def\RelSpeed{\Speed/sqrt(1+\RelSpeedFactor*\RelSpeedFactor)}
+					
+					\def\RelSpeedFactorB{\Speed/(\LightSpeed/\Density/2)}
+					\def\RelSpeedB{\Speed/sqrt(1+\RelSpeedFactorB*\RelSpeedFactorB)}
+					
+					\def\OneDay{86400}
+					
+					\begin{tikzpicture}%[scale=1.5]
+					\begin{axis}[
+					%  axis y line*=left,
+					title={\huge Relativistic speed of body accelerated by 'g'},
+					width=\textwidth,
+					%	title style={at={(0.5,1.05)},anchor=north},
+					%	title = {Relativistic speed of body accelerated by 'g'}, 
+					xlabel=\huge $time(s)$,
+					ylabel=\huge $speed (m/s)$,
+					ymin=1e6, ymax=5e8,
+					xmin=\OneDay, xmax=5e8,
+					xmode=log,
+					log basis x=10,
+					ymode=log,
+					log basis y=10,
+					legend style={
+						cells={anchor=west},
+						legend pos={north west},
+					},
+					]
+					\def\Density{1.}
+					
+					\addlegendentry{$v(t),~n=1$}
+					\addplot[samples=501,domain=\OneDay:1e9,webgreen]
+					{\RelSpeed} ;\label{plot_loo}\OneDay
+					
+					\def\Density{2.5}
+					\addplot[samples=501,domain=\OneDay:1e9,webred]
+					{\RelSpeed} ;\label{plot_loo}
+					\addlegendentry{$v(t),~n=2.5$}
+					
+					\def\Density{5.}
+					\addplot[samples=501,domain=\OneDay:1e9,webred]
+					{\RelSpeed} ;\label{plot_loo}
+					\addlegendentry{$v(t),~n=5$}
+					
+					\end{axis}
+					
+					
+					\end{tikzpicture}
+				}
+				
+			}&
+			\only<2->
+			{
+				\maxsizebox{.5\textwidth}{!}
+				{
+					
+					\def\alpha{(1-\beta)}
+					
+					\def\N{(x/0.0000001)}
+					%	\def\PayloadPerformance{x/(\N*(1.-\alpha)+ \alpha)}%(\N*(1-\alpha)+\alpha)}
+					\def\PayloadPerformance{x/(\alpha+100000000*x*\beta)}
+					\def\betaN{1e-10}
+					\def\betaA{1e-8}
+					\def\betaB{1e-7}
+					\def\betaC{1e-6}
+					\def\betaD{1e-5}
+					
+					\begin{tikzpicture}%[scale=1.5]
+					\begin{axis}[
+					%  axis y line*=left,
+					title={\huge Payload performances of N cores @100GFlops},
+					width=\textwidth,
+					%	title style={at={(0.5,1.05)},anchor=north},
+					%	title = {Relativistic speed of body accelerated by 'g'}, 
+					xlabel=\huge Nominal performance (EFlops),
+					ylabel=\huge Payload performance (EFlops),
+					ymin=1e-4, ymax=2,
+					xmin=1e-4, xmax=2,
+					xmode=log,
+					log basis x=10,
+					ymode=log,
+					log basis y=10,
+					legend style={
+						cells={anchor=west},
+						legend pos={north west},
+					},
+					]
+					\def\beta{\betaN}
+					
+					\addlegendentry{1-$alpha=\betaN$}
+					\addplot[samples=501,domain=1e-4:2,webred]
+					{\PayloadPerformance} ;%\label{plot_0}
+					\def\beta{\betaA}
+					
+					\addlegendentry{1-$alpha=\betaA$}
+					\addplot[samples=501,domain=1e-4:2,webgreen]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaB}
+					
+					\addlegendentry{1-$alpha=\betaB$}
+					\addplot[samples=501,domain=1e-4:2,webgreen]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaC}
+					
+					\addlegendentry{1-$alpha=\betaC$}
+					\addplot[samples=501,domain=1e-4:2,webgreen]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaD}
+					
+					\addlegendentry{1-$alpha=\betaD$}
+					\addplot[samples=501,domain=1e-4:2,webblue]
+					{\PayloadPerformance} ;%\label{plot_0}
+					\end{axis}
+					
+					
+					\end{tikzpicture}
+					
+			}}\\
+		\end{tabular}
+	}
+	
+	\only<1>{	A body accelerated by a constant gravitational force cannot exceed the speed of light.}
+	
+	\only<2>{	The performance of a parallelized sequential computing system 
+		cannot exceed its specific 'speed of light'.
+		
+		The performance is sensitive to the amount of computation (including data length) and communication.
+		
+		Science is \textbf{not} limiting below EPlops performance.
+	}
+	\maxsizebox{\textwidth}{!}
+	{
+		\centering{
+			\only<3>{\Large $ P(N) = \frac{N\cdot P_{single}}{\boxed{\textcolor{red}{N\cdot \left(1-\alpha\right)+\alpha}}}$
+			}
+			
+			\only<4>{\Large $ P(N) = \frac{N\cdot P_{single}}{\boxed{\textcolor{red}{N}\cdot \left(1-\alpha_{Science}  
+						\textcolor{red}{-\alpha_{Net} -\alpha_{Compute}} -\alpha_{Others}    \right)+\approx 1}}$
+			}
+		}	
+	}
+	
+}

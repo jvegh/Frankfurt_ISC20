@@ -1,0 +1,104 @@
+%%% This is the ISC-2020 Frankfurt 1st tutorial, A2
+
+\MEchapter[Single-processor performance]{Limitations of parallelized sequential processing}
+\MESetListingFormat[basicstyle={\ttfamily\color{black}\normalsize}]{SystemC}
+
+%\subsubsection{Limitations of parallelized sequential processing 45+5'}
+%The lesson interprets Amdahl's Law in its original 
+%interpretation, and sets up a non-technical, general-purpose model.
+%It visualizes the meaning of Amdahl's Law, and points out the existence of an inherent performance limit of the sequential operation.
+%To describe the perfectness of the implementation of the implemented
+%parallelization, introduces the parameter "effective parallelization".
+%It will be shown that that the efficacy decrease with the 
+%growing number of processors is caused by the principle of
+%parallelization, rather than by some engineering imperfectness.
+%The lesson introduces the "dark performance",
+%i.e. the non-payload performance of parallelized sequential systems,
+%and interprets the experience of "computing efficiency". Some surprising utilizations of Amdhal's Law as well as its abusing are also mentioned.
+
+
+\MEsection[SPA]{Limitations of parallelized sequential processing}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\MEsection[The math]{Amdahl's Law}
+
+\MEframe{The mathematics of Amdahl's Law}
+{
+Amdahl's original intention, as it was expressed also in the title 
+of his famous paper~\cite{AmdahlSingleProcessor67}, was to draw the attention to that parallizing single processors
+implies serious performance limitations.
+Amdahl only wanted to draw the attention to that when putting together
+several single processors, and using \gls{SPA}, the available speed gain due to using large-scale computing capabilities \textit{has} a theoretical upper bound.
+He also mentioned that data housekeeping (non-payload calculations)
+causes some overhead, 
+and  that \emph{the nature of that overhead appears to be sequential, independently of its origin}.
+\index{Amdahl's law} \index{parallelization speedup}
+}
+
+%\MEframe{The mathematics of Amdahl's Law}
+%{
+%	\only<1>
+%	{
+%		\MEquote{Everyone knows Amdahl's Law, but quickly forgets it.}{Thomas Puzak, IBM, 2007}
+%	}
+%	
+%	\only<2>
+%	{
+%		Usually,  Amdahl's law is expressed as 
+%		\vspace{-.3\baselineskip}	
+%		\begin{equation}
+%		S^{-1}=(1-\alpha) +\alpha/N \label{eq:AmdahlBase}
+%		\end{equation}
+%		
+%		\noindent where $N$ is the number of parallelized code fragments, 
+%		$\alpha$ is the ratio of the parallelizable fraction to the total,
+%		$S$ is the measurable speedup. 
+%		
+%		\vspace{-.3\baselineskip}	
+%		\begin{equation}
+%		\alpha = \frac{N}{N-1}\frac{S-1}{S} \label{equ:alphaeff}
+%		\end{equation}
+%		
+%		When calculating speedup, one actually calculates
+%		\vspace{-.3\baselineskip}	
+%		\begin{equation}
+%		S=\frac{(1-\alpha)+\alpha}{(1-\alpha)+\alpha/N} =\frac{N}{N(1-\alpha)+\alpha}
+%		\end{equation}
+%		hence  the \textit{efficiency}
+%		\vspace{-.3\baselineskip}	
+%		\begin{equation}
+%		\boxed{E(\large N,\alpha)} = \frac{S}{N}=\boxed{\frac{1}{\textcolor{webred}{\Large N}(1-\alpha)+\alpha}}= \frac{R_{Max}}{R_{Peak}} \label{eq:soverk}
+%		\end{equation}
+%	}
+%}
+%
+%\MEsection{The efficiency surface}
+%\MEframe{Parallization efficacy as 2-parameter function}
+%{
+%	\MEfigure{fig/EffDependence2018LogA.pdf}
+%	{	The efficiency of a distributed computing system, as defined by the first-order Amdahl's law. The surface is calculated according to Eq.~(\ref{eq:soverk}), the measured data are taken from the database \cite{TOP500:2017}.
+%		"The efficency is a feature rather than a bug".
+%	\pause
+%	{”this decay in performance is not a fault of the
+%		architecture, but is dictated by the limited parallelism”.\cite{ScalingParallel:1993}}
+%}
+%{fig:EfficiencySurface}{}
+%{}
+%}
+%
+%	\MEfigure{fig/ZettaflopsSandia}
+%{What was expected in 2005}
+%{Expectations2005}{}{.85}
+%
+%\MEsection[The model]{Amdahl's model}
+%\MEframe{The model of parallel/sequential operation}
+%{
+%	\MEfigure{fig/AmdahlModelAnnotated.pdf}
+%{Amdahl's model with annotations}
+%{fig:AmdahlAnnotated}{}{.85}
+%
+%	\textbf{\textit{SW, \textcolor{red}{HW  and science} contribute to the sequential-only fraction.}}
+%	
+%	(The terms of the simple non-technical model need proper interpretation.)
+%}
+

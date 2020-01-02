@@ -1,0 +1,62 @@
+%%% This is the ISC-2020 Frankfurt 1st tutorial, A
+
+\MEchapter[Single-processor performance]{SPA: Around single-processor performance }
+\MESetListingFormat[basicstyle={\ttfamily\color{black}\normalsize}]{SystemC}
+
+\MEsection[SPA]{SPA: Around single-processor performance}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\MEframe[shrink]{SPA: Around single-processor performance}
+{
+\articleonly{} 
+
+\articleonly{
+}	
+	The context
+}% Lessons
+
+
+\MEframe[shrink]{SPA: Around single-processor performance}
+{
+\articleonly{It was early discovered that the age of conventional architectures was over ~\cite{AmdahlSingleProcessor67,GodfreyArchitecture1986};
+the only question that remained open whether the “game is over”, too~\cite{ComputingPerformanceBook:2011}.} 
+A slowdown or stalling of the growth of computing performance is expected according to the general experiences~\cite{ExponentialLawsComputing:2017}
+and was really experienced for the performance of  both  single processors~\cite{LimitsOfLimits2014}
+and large-scale parallelized sequential computing systems~\cite{ChinaExascale:2018,ToolingUpForExascale:2019}.
+\articleonly{However, similarly to most of the basic limitations of computing,
+even the limitations are limited~\cite{LimitsOfLimits2014}.
+The limitations are topped by the issue of "dark performance"~\cite{Esmaeilzadeh:2015:AAP:2830689.2830693}: increasing simply the number of processors is not sufficient,
+although the processor is a "free resource"~\cite{SpiNNaker:2013}.}
+}
+
+
+\MEframe[shrink]{SPA: Around single-processor performance}
+{
+\articleonly{When comes to parallel computing, the today’s technology is able to deliver not only many, but "too many" cores~\cite{TooManyCores2007}.}
+Their computing performance, however, does not increase linearly with the number of cores~\cite{HillMulticoreAmdahl2008} 
+("\textit{a trend that can't go on ad infinitum}"\cite{ExascaleGrandfatherHPC:2019}),
+and only a few of them can be utilized simultaneously ~\cite{Computing_Dark_Silicon_2017}.  
+\articleonly{Consequently, it is unreasonable to use high number of cores for such extreme system operation~\cite{Ungerer_MERASA:2010}.
+Approaching the limits of the ”classic paradigm of computing” has rearranged the technology ranking~\cite{KeepingComputerIndustryInUS:2017}.}
+"\textit{New ways of exploiting the silicon real estate need to be explored}"~\cite{ChandyParallelism:2009}.
+}
+
+\MEframe[shrink]{SPA: Around single-processor performance}
+{
+Not only the efficacy of computing is very low because of the different performance 
+losses~\cite{InefficiencyHameed2010}, but more and more limitations come to the light~\cite{NeuromorphicComputing:2015}.
+%--,ChandyParallelism:2009}. 
+Not only that in extreme conditions computing quickly reaches  its performance limits~\cite{NeuromorphicComputing:2015,LimitsOfLimits2014},
+but this performance degrades even more accelerated in systems comprising parallelized sequential processors~\cite{VeghPerformanceWall:2019}.
+}
+
+\MEframe[shrink]{SPA: Around single-processor performance}
+{
+The moon-shot of the limitless parallel processing performance is followed. Although even the exascale performance
+is not yet achieved, already the $10^4$ times higher performance is planned\footnote{https://link.springer.com/journal/11714/19/10}.
+\articleonly{Demonstrative failures (such as the supercomputers Gyoukou and Aurora, or the brain simulator SpiNNaker) come to the light, but the "gold rush" is going on. 
+Even in the most prestigeous journals~\cite{StrechingSupercomputers:2017,Scienceexascale:2018}.}
+
+It looks like that in the feasibility studies  an analysis
+whether an inherent performance bound exists is done neither in USA~\cite{NSA_DOE_HPC_Report_2016} nor in  EU~\cite{EUActionPlan:2016}
+nor in Japan~\cite{JapanExascale:2018} nor in China~\cite{ChinaExascale:2018}.
+}

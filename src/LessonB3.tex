@@ -1,0 +1,426 @@
+%%% This is the ISC-2020 Frankfurt 2nd tutorial, B3
+
+\MEchapter[Benchmarking]{Benchmarking performance of supercomputing}
+\MESetListingFormat[basicstyle={\ttfamily\color{black}\normalsize}]{SystemC}
+
+
+%\subsubsection{Benchmarking performance of supercomputing 45+5'}
+%Based on the contributions, the role of the benchmarking
+%method will be discussed. The experience that "supercomputers have
+%two different efficiencies" will be interpreted. It will be shown
+%that with enhancing the technology of implementation,
+%the computation/communication became the major limitation of the supercomputing tasks. The role of the computing workflow (including HPL/HPCG, brain simulation and AI) will be discussed.
+%The validity and accuracy of the approach 
+%will also be demonstrated. The effect of different technical implementations
+%(including GPGPU acceleration, half precision, OpenCAPI bus and interconnection quality) are demonstrated. 
+
+\articleonly{The most obvious 
+field to apply our model to is supercomputers. 
+Here the number of processors is extremely high and 
+-- as will be demonstrated -- all contributions to $(1-\alpha_{eff})$
+have been greatly reduced during their very well documented history spanning a quarter of century~\cite{Top500:2016}. Our model is flexible enough to
+describe those \gls{HW}/\gls{SW} architectures and also indirectly prove the validity of the principles used in the model.
+} 
+
+
+
+\MEsection[Workflow type]{The effect of workflow on the performance}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\MEframe[shrink]{Benchmarking performance of supercomputing}
+{
+\articleonly{	It is also known since decades that
+	"\textit{the inherent communication-to-computation ratio in a
+		parallel application is one of the important determinants
+		of its performance on any architecture. The higher the
+		ratio, the less likely is a machine to provide effective performance on that application}."\cite{ScalingParallel:1993} 
+	This observation is demonstrated in Fig.~\ref{fig:AlphaContribBenchmark}. 
+	
+	The left column of the figure displays different common
+	communication intensities (different workflow types).
+	The bottom subfigure 
+	shows the common case of Artificial Intelligence,
+	where some intermediate layers exchange information with
+	each other and the rest of the "neurons".
+	Notice that here the communication intensity is proportional with $m^2$, the square of the number of "neurons", in the hidden layer.
+	
+	The middle and bottom subfigures in the left column depict the communication intensity of the two popular supercomputer benchmark programs \gls{HPL} and \gls{HPCG} in the same style. Here the initiating and terminating node is a single core and the "hidden layer" comprises all the rest of the cores. The communication intensity of \gls{HPL} is proportional
+	with $N$ (the total number of processing units) and that of	\gls{HPCG} with $h\cdot N$, because $h$ iterations take place. Let us notice that when a supercomputer is utilized for calculation in $AI$
+	mode, the $AI$ mode means performance proportional with
+	the number of neurons in the hidden layer. If the supercomputer having 1M core is running in \gls{HPL} configuration, and the AI mode system runs on x:1k:1k:y cores, they will have the same performance~\cite{VeghAIperformance:2020}. (The absolute times must not be compared, but their ratio can.)
+}
+	
+
+	\MEfigure[wide]{fig/AlphaContribBenchmark.pdf}
+{The dependence of the payload performance of the different contrinutions and on the workflow type.}
+{fig:AlphaContribBenchmark}{}{}
+
+\articleonly{
+The right hand column requires more attention. The right-hand scale and the blue line refer to the payload performance. The left hand scale refers to the $\alpha$ contributions of different kinds. For visibility, only the looping (\gls{OS}) contribution and the \gls{SW} (calculation+communication) contributions are shown.
+The communication intensity %(and the value of $\alpha$)
+is the lowest for the \gls{HPL} case and the highest is for the \gls{AI} case.
+Correspondingly, the payload performance is the best for
+\gls{HPL} and worst for   \gls{HPL}.
+
+The reason is the different amounts of $\alpha$ contributions. Between subfigures A and B,
+the amount (and so the contribution) of the calculation
+is increased, mainly because of the need of iteration.
+Between subfigures B and C, the communication intensity is increased, leading to orders of magnitude decrease
+in the efficiency %(and so in the payload performance)
+and also the inflexion point moves tovards much lower
+nominal performance values.
+% (and so the breakdown can be experienced at much lower number of cores).
+}
+%
+%relative weight of the contributions and the resulting payload performance
+}% Lessons
+
+\MEsection[Interconnection]{The effect of interconnection on the performance}
+
+\MEframe[shrink]{The contribution of the interconnection}
+{
+In a somewhat simplified view, the 
+resulting performance can be calculated using the contributions to $\alpha$ as
+
+
+\begin{equation}
+P(N,\alpha) = \frac{N\cdot P_{single}}{\textcolor{red}{N}\cdot \left(1-\textcolor{red}{\alpha_{Net} -\alpha_{Compute}} -\alpha_{Others}    \right)+\approx 1}
+\end{equation}
+
+\noindent 
+That is, two of the contributions are handled with emphasis. The theory easily provides values for the contributions for
+the interconnection and calculation separately.  
+Fortunately, the public database TOP500~\cite{Top500:2016}
+also provides data measured under conditions greatly similar
+to the 'net' contribution.
+Of course, the measured data contain the contribution of all components.
+However, as will be shown below, in the total contribution those mentioned contributions dominate,
+so the measured $\alpha$ can be directly compared with the calculated
+$\alpha$, although here only qualitative agreement can be expected.
+}
+
+
+\MEframe[shrink]{The contribution of the interconnection: theory vs measured}
+{
+
+	\MEfigure[wide]{fig/InterconnectionVsPerformance.pdf}
+{The effect of changing the dominating contribution.
+	The left subfigure shows the theoretical estimation,
+	the right subfigure the corresponding measured data, as derived from the 
+	public database TOP500~\cite{Top500:2016}.}
+{fig:InterconnectionVsPerformance}{}{}
+
+
+\articleonly{
+Both the quality of the interconnection and the nominal performance 
+are a parametric function of the time, so one can assume on the
+theory side that (in a limited time span) the interconnection contribution
+was changing as shown in Fig.~\ref{fig:InterconnectionVsPerformance}A.
+The other major contribution is assumed to be the calculation\footnote{This time also accessing data ("communicating" is included)} itself.
+The benchmark calculation contributions for  \gls{HPL} and \gls{HPCG}
+are very different, so the sum of the respective component plus the  
+interconnection component are also very different.
+Given that at the beginning of the considered time span the 
+contribution from the \gls{HPCG} calculation and that of the 
+interconnection are in the same order of magnitute, the sum
+only changes marginally, i.e. the measured performance changes only marginally.
+
+The case with the \gls{HPL} calculation is drastically different.
+Since in this case the contribution from the interconnection is
+very much larger than that from the calculation, the sum of these two contributions changes sensitively as the speed of the interconnection
+improves. As soon as the contribution from the interconnection
+decreases to a value comparable with that of the calculation,
+the decrease of the sum slows down considerably,
+and the further improvement of the interconnection causes
+only marginal decrease in the value of the resulting $\alpha$
+(and so only a marginal increase in the payload performance).
+
+The measured data enable to draw the same conclusion,
+but one must consider that here multiple parameters may have been
+changed. The tendency, however, is surprisingly clear.
+Fig.~\ref{fig:InterconnectionVsPerformance}.B is actually a 2.5D diagram: the size of the marks is proportional
+with the time passed since the beginning of the considered time period.
+A decade ago, the speed of interconnection gave the major contribution
+to $\alpha_{total}$; enhancing it drastically in the past few years, increased the efficacy.
+At the same time, because of the stalled single-processor performance, the other technology components only changed marginally. The calculation contribution to $\alpha$ from benchmark \gls{HPL}
+remained constant in function of the time, so the quick improvement of the interconnection technology resulted 
+in a quick decrease of $\alpha_{total}$, and the relative weights of
+$\alpha_{Net}$ and $\alpha_{Compute}$ reversed.
+\textit{The decrease in value of $(1-\alpha)$ can be considered as 
+the result of the decreased contribution from the interconnection.}
+
+
+However, the total $\alpha$ contribution decreased considerably \textit{only} until $\alpha_{Net}$ reached
+the order of magnitude of  $\alpha_{Compute}$. 
+This occurred in the first 4-5 years of the time span shown in Fig.~\ref{fig:InterconnectionVsPerformance}.B:
+%\ref{fig:compareTheoryMeas}.B: 
+the sloping line is due to the 
+enhancement of the interconnection.
+Then, they changed their role, and the constant contribution due to the calculation started to dominate,
+i.e. the total $\alpha$ contribution decreased only marginally.
+As soon as the computing contribution took over the dominating role, the total  $\alpha_{total}$
+did not decrease any more: all measured data remain above that value of  $\alpha$.
+Correspondingly, the payload performance (due to the enhanced interconnection) improved only marginally (and due to factors other than the interconnection).
+
+At this point, as a consequence of that  the dominating contributor changed, it was noticed that the efficacy of the benchmark \gls{HPL} and that of the real-life applications started to differ by up to two orders of magnitude.
+At that point was introduced the new benchmark program \gls{HPCG}, since "\textit{\gls{HPCG} is designed to exercise computational and data access patterns that more closely match a different and broad set of important applications%, and to give incentive to computer system designers to invest in capabilities that will have impact on the collective performance of these applications
+}"~\cite{HPCG_List:2016}.
+Since the major contributor is computing, the different benchmarks contribute differently and since that time
+"\textit{supercomputers have two different efficiencies}"~\cite{DifferentBenchmarks:2017}.
+Yes, if the dominating $\alpha$ contribution (from the benchmark calculation) is different, then the same computer shows different efficiencies
+in function of the calculation it runs.
+
+This enhancement of the interconnection has two important consequences.
+First, that the \gls{HPL} benchmarks
+at the beginning of the period measured mostly the contribution of the interconnection, after that they measure mostly the contribution due to the \gls{HPL} algorithm; see also below.
+Second, since that time, that the interconnection provides less contribution, than the calculation of the benchmark, enhancing the interconnection contributes only to the \textit{dark performance}, rather than to the \textit{payload performance}. 
+}
+}
+
+\MEsection[Half precision]{The effect of operand length on the performance}
+
+
+\MEframe[shrink]{Reducing the operand length}
+{
+Reducing the communication really makes sense, however.
+The so called \textit{HPL-AI} benchmark uses Mixed Precision\footnote{Both names are rather inconsequent. On one side, the test itself has not much to do with AI, just uses the operand length common in AI tasks (\gls{HPL}, similarly to \gls{AI}, is a worload type). On the other side, the Mixed Precision is actually Half Precision: it is natural that for multiplication twice as long operands are used temporarily. A different question is that the operations are contracted.}
+\cite{MixedPrecisionHPL:2018} rather than Double Precision 
+calculations. This enabled to achieve apparently nearly 3 times better
+performance gain, that (as correctly stated in the announcement)
+"\textit{Achieving a 445 petaflops mixed-precision result on HPL (equivalent to our 148.6 petaflops DP result)}", i.e. the peak DP performance did not change.
+
+\ao{Unfortunately, this achievement has not much to do with
+\gls{AI}: it utilizes the data representation commonly used in AI,
+but \textit{the achievement comes from accessing less data in memory and using quicker operations on the  shorter data
+	rather than reducing the communication intensity}.
+For \gls{AI} applications, the limitations remain the same
+as described above;
+except that when using Mixed Precision,
+the efficiency will be better by a factor of 2-3.
+}
+
+\ao{
+Similarly, exchanging data directly between the processing units~\cite{CooperativeComputing2015} (without using the global memory)
+also enhances $\alpha$ (and payload performance)~\cite{TaihulightHPCG:2018},
+but it represents a (slightly) different computing paradigm.
+Only the two mentioned measured data fall below
+the limiting line of $(1-\alpha)$ in Fig.~\ref{fig:InterconnectionVsPerformance}.B. %\ref{fig:compareTheoryMeas}.
+}
+
+\ao{A warning sign is that two of the first ten supercomputers
+did not provide their \gls{HPCG} performance and other two
+used only a small portion of their cores in the \gls{HPCG} benchmarking.
+As predicted: "\textit{scaling thus put larger machines at an inherent
+	disadvantage}"~\cite{ScalingParallel:1993}.
+The reason is Eq.~(\ref{eq:soverk}): using all of their cores
+the achievable performance  is not higher (or maybe even lower),
+only the power consumption is higher.
+The cloud-like supercomputers have definitely a disadvantage
+in the \gls{HPCG} competition: the Ethernet-like operation
+results in relatively high $(1-\alpha)$ values.}
+}
+
+\MEframe[shrink]{The performance of half precision supercomputers}
+{
+
+\ao{It is expected that when using half precision (FP16), four times less
+data are transferred and manipulated by the system (for Summit, the measured power
+consumption data~\cite{MixedPrecisionHPL:2018} underpin the statement), so} it is expected that
+
+$\alpha_{HPL}^{FP64} = 4*\alpha_{HPL}^{FP16}$
+
+\ao{However, the performance is only 3 times higher\footnote{https://blogs.nvidia.com/blog/2019/06/17/hpc-ai-performance-record-summit/}	 than in the case of 
+using 64-bit (FP64) operands. Given that the measured payload performance directly reflects the sum of all contributions,
+one can assume that the contributions of the two calculations 
+plus the rest of the contributions define the $\alpha$ values}
+we can conclude from the measurements
+that for supercomputer Summit:
+
+$1-\alpha_{HPL}^{FP0}-\alpha_{HPL}^{FP64} = 1.465*10^{-7}$
+
+$1-\alpha_{HPL}^{FP0}-\alpha_{HPL}^{FP16} = 0.488*10^{-7}$
+
+
+where $\alpha_{HPL}^{FP0}$ is the contribution of all parts independent from the floating manipulation. This quantity is a "zero bitlength floating operation" contribution: the supercomputer makes the stuff needed to perform the \gls{HPL} benchmark,
+but the actual FP operations are not performed\footnote{The role of $\alpha_{HPL}^{FP0}$ is akin to execution time of the "empty loop" in programming.}.  From this, 
+
+$\alpha_{HPL}^{FP0} =0.19*10^{-7}$
+
+$\alpha_{HPL}^{FP16} = 0.33*10^{-7}$
+
+$\alpha_{HPL}^{FP64} = 1.3*10^{-7}$
+
+$\alpha_{HPCG}^{FP64} = 208*10^{-7}$
+
+\ao{These data directly underpin that the technology is (almost) perfect:}
+the contribution from the benchmark calculation$\alpha_{HPCG}^{FP64}$
+is orders of magnitude larger than the contribution from all the rests.
+\ao{Recalling that the benchmark program imitates the behavior (as defined
+by the resulting $\alpha$) of real-life programs, one can see that} 
+\textit{the contribution from the non-computational actors is
+about thousand times smaller than the contribution of
+the computation+communication itself}.	
+}
+
+
+\MEframe[shrink]{Finally, how many efficiencies do supercomputers have}
+{
+The ironic remark that \textit{'Perhaps supercomputers should just be required to have written in small letters at the bottom on their shiny cabinets: “Object manipulations in this supercomputer run slower than they appear.”}~\cite{DifferentBenchmarks:2017}' is becoming increasingly relevant.
+
+ \ao{The imposant numbers about performance of the individual components (including single-processor performance and speed of interconnection)
+are becoming less relevant when going to the extremes.
+Given that the largest $\alpha$ contribution today takes its origin in the
+calculation the supercomputer runs, even the best possible benchmark \gls{HPL} dominates the performance measurement.
+Enhancing the other contributions, such as interconnection,
+result only in marginal enhancement of the performance, i.e.} the 
+overwhelming majority of the expenses increases the "dark performance" only. \ao{Because of this,} \textit{there are as many performance values
+	as many measurement methods, and actually the benchmarks
+	measure how much mathematics/communication the 
+	benchmark program does\ao{, rather than the supercomputer architecture
+	(provided that all components deliver the technically achievable 
+	best parameters)}}. 
+}
+
+\MEframe[shrink]{The rooflines of supercomputer performance}
+{
+\ao{	As it can be concluded from that the many-processor performance
+	\textit{has} a maximum, depending on the effective parallelization,
+	and that the different workflows result in different effective parallelization,} "\textit{Two Different Top500 Supercomputing Benchmarks Show Two Different Top Supercomputers}"~\cite{DifferentBenchmarks:2017}.
+	
+	\MEfigure{fig/RooflineBrain.pdf}
+{The "rooflines" of supercomputer performance for three different workflows.}
+{fig:RooflineBrain}{}{}
+
+\ao{
+As discussed above and the theoretical discussion is illustrated in Fig.~\ref{fig:AlphaContribBenchmark},}
+the different workflows really contribute differently and they result in different performance gain rooflines~\cite{WilliamsRoofline:2009} \ao{(this expresses the resulting performance without the single processor performance). The measured values are shown in Fig.~\ref{fig:RooflineBrain}
+for the commonly used benchmark programs \gls{HPL} and \gls{HPCG}. The third 
+roofline level is concluded from the brain simulation measurement~\cite{NeuralNetworkPerformance:2018}, so it is subject of uncertainty.
+The roofline values shall be compared to the theoretically derived dependencies demonstrated in Fig.~\ref{fig:AlphaContribBenchmark}.
+The fact that the theoretical diagram lines
+consider pure and consequently calculated performance values, while the measured values may contain "foreign" contributions (such as the contribution of the interconnection discussed above)
+must be kept in mind.
+
+}
+}% Lessons
+
+
+\MEsection[Brain simulation/AI]{The performance of brain simulation and AI}
+
+
+\MEframe[shrink]{The efficiency of AI solutions}
+{
+\ao{Today we live in the age of artificial intelligence and machine learning; from small
+startups to HW or SW giants everyone wants to build machine intelligence chips, applications,
+etc. The task, however, is hard: not only because of the size of the problem:
+the technology one can utilize (and the paradigm it is based upon) strongly degrades
+the chances to succeed efficiently.} The general principles are of course well known, and the AI systems work more or less as expected for simple tasks, but on large systems they show up miserably small efficacy (extremely high learning times)~\cite{VeghAIperformance:2020}.
+
+\ao{There are, of course, very enhanced solutions, but their technical implementation is "top secret".
+Because of this, in this section the "experimental data" refer to the published data of brain simulation~\cite{NeuralNetworkPerformance:2018,SpiNNaker:2013}, where also enough
+implementation details are known.
+Although the two cases are quantitatively different, the common feature of them is that
+as we approach the extremes with the size of
+the computing units, the nonlinearity of the scaling becomes more and more obvious.
+	}
+
+}
+
+\subsection{Supercomputer efficiency in terms of AI}
+MEframe[shrink]{The communication in the AI multi-layer structure}
+{
+	\MEfigure{fig/AImultilayer.pdf}
+{The communication density of the AI workload}
+{fig:AImultilayer}{}{}
+
+
+\ao{Recall the communication density of
+	the \gls{AI} workflow, shown in Fig.~\ref{fig:AImultilayer} (formerly shown as subfigure of Fig.~\ref{fig:AlphaContribBenchmark}).
+ The life begins in several input channels (rather than one
+as in the \gls{HPL} and \gls{HPCG} cases) that would be advantageous.
+However, the values must be communicated to \textit{all} nodes in the top hidden layer:
+the more input nodes and the more nodes in the hidden layer(s), the many $times$ more 
+communication is required for the operation.	
+ The same happens also when the
+first hidden layer communicates data to the second one; except that here \textit{the square of the number of the nodes} is to be used as a weight factor of communication.
+
+Initially the $n$ input nodes
+issue messages, each one $m$ messages (queuing\#1) to the nodes
+in the first hidden layer, i.e. altogether $nm$ messages.
+If a commonly used shared bus is utilized to transfer 
+the messages, these  $nm$ messages must be queued (queuing\#2). 
+Also, every single node in the hidden layer
+receives (and processes) $m$ input messages (queuing\#3).
+Between the hidden layers the same is repeated (maybe several times)
+with $mm$ messages, and finally $km$ messages
+are sent to the output nodes.
+In all cases queuing 3 times.
+
+To make a fair comparison with benchmarks $HPL$ and $HPCG$,
+let us assume one input and one output node.
+In this case the AI execution time is $O(h\times m^2)$,
+provided that $h$ hidden layers are implemented. 
+(Here it was assumed that the messaging mechanism
+between layers is independent from each other.
+It is not so if they share a global bus.
+\footnote{\textit{"The idea of using the popular shared bus to implement the communication medium is no longer acceptable, mainly due to its high contention."}~\cite{ReconfigurableAdaptive2016}})
+
+For a numerical example: let us assume that 
+in the supercomputers 1M cores are used, and 
+in the AI network 1K nodes are present in the hidden layers,
+and only one input and output nodes are used.
+In that case all execution times are $O(1M)$
+(again, the amount of calculation is strongly different,
+so the scaling can be compared, but not the execution times).
+This communication intensity explains why in Fig.~3 %\ref{fig:rooflines}
+the $HPCG$ "roofline" falls
+hundreds of times lower than that of the $HPL$: 
+the increased communication need strongly decreases
+the achievable performance gain.
+
+
+
+
+Notice that} the number \textit{calculation} operations increases with $m$,
+while the number of \textit{communication} operations with $m^2$. \ao{In other words:
+the more nodes in the hidden layers, the higher is the communication intensity (communication/calculation ratio) and because of this, the lower is the efficiency of the system.
+Recall, that since the AI nodes perform simple calculations
+compared to the functionality of the supercomputer benchmarks,
+the communication/calculation ratio is much higher, 
+making the efficacy even worse.
+
+The massively "bursty" nature of the data (the different nodes of the layer
+want to use the communication at the same moment) also makes the case harder.
+The commonly used global bus is overloaded with messages. 
+The possibility for wired point-to-point communication is obviously limited;
+but deploying them at least for the inter-layer communication buses can help a lot.
+
+
+
+
+The communication circuits receive the task to send the data to $N$ other nodes.
+The calculation and communication are \textit{ab ovo} sequential, and
+the communication channel can only transfer one data value at a time.
+What is worse,}
+ bus arbitration, addressing, latency, etc. prolong the transfer time (and in his way decreases efficacy of the system).
+
+}
+
+
+\subsection{Accelerating supercomputer using GPGPU}
+\MEframe[shrink]{GPGPU}
+{
+%	\MEfigure{fig/AImultilayer.pdf}
+%	{The communication density of the AI workload}
+%	{fig:AImultilayer}{}{}
+%	
+%\MEfigure{fig/CommunicationCollapse.pdf}
+%{Demonstrating the communicational collapse at large workloads}
+%{fig:CommunicationCollapse}{\protect{\cite{CommunicationCollapse:2018}}}{}
+}
+
+%\subsection{Supercomputer efficiency in terms of AI}
+%\MEframe[shrink]{The communication in the AI multi-layer structure}
+%{
+%	\MEfigure{fig/AImultilayer.pdf}
+%	{The communication density of the AI workload}
+%	{fig:AImultilayer}{}{}

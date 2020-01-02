@@ -1,0 +1,443 @@
+%%% This is the ISC-2020 Frankfurt 2nd tutorial, B4
+
+\MEchapter[Modern computing]{Modern science and modern computing}
+\MESetListingFormat[basicstyle={\ttfamily\color{black}\normalsize}]{SystemC}
+
+
+%\subsubsection{Modern science and modern computing 45+5'}
+%The parallel with the modern science is completed:
+%it will be shown that under extreme conditions the "quantal nature
+%of time" manifests and "communicational collapse" occurs,
+%caussing demonstrative failures of supercomputers and brain simulators.
+%Also, that measuring the performance of a many-many processor
+%parallelized sequential computing system casuses a drastic  
+%change in the state of the supercomputer, in a completely analogous 
+%way with measuring the state of a quantum system.
+%Based on the investigations presented above, the short-time 
+%future of supercomputing will be predicted. Given that the
+%major contributor to the non-parallelizable portion of the task
+%is the computation/communication itself, the further technical enhancement, without changing the principle of computation is "mission impossible": only increase the "dark performance" of the computing systems with extreme size. The tutorial will convincingly demonstrate
+%the need for a new computing paradigm, and also a possible way out will be sketched. 
+
+
+
+\MEframe{Analogy with the relativistic speed addition}
+{%
+%	\maxsizebox{\textwidth}{!}
+	{
+		\begin{figure*}
+		\begin{tabular}{cc}
+			\only<1->
+			{\maxsizebox{.5\textwidth}{!}
+				{
+					
+					
+					\def\LightSpeed{3.e8}	% m/s
+					\def\Gravity{10.}		%m/s^2
+					\def\Speed{x*\Gravity}
+					\def\RelSpeedFactor{\Speed/(\LightSpeed/\Density)}
+					\def\RelSpeed{\Speed/sqrt(1+\RelSpeedFactor*\RelSpeedFactor)}
+					
+					\def\RelSpeedFactorB{\Speed/(\LightSpeed/\Density/2)}
+					\def\RelSpeedB{\Speed/sqrt(1+\RelSpeedFactorB*\RelSpeedFactorB)}
+					
+					\def\OneDay{86400}
+					
+					\begin{tikzpicture}%[scale=1.5]
+					\begin{axis}[
+					%  axis y line*=left,
+					title={\huge Relativistic speed of body accelerated by 'g'},
+					width=\textwidth,
+					%	title style={at={(0.5,1.05)},anchor=north},
+					%	title = {Relativistic speed of body accelerated by 'g'}, 
+					xlabel=\huge $time(s)$,
+					ylabel=\huge $speed (m/s)$,
+					ymin=1e6, ymax=5e8,
+					xmin=\OneDay, xmax=5e8,
+					xmode=log,
+					log basis x=10,
+					ymode=log,
+					log basis y=10,
+					legend style={
+						cells={anchor=west},
+						legend pos={north west},
+					},
+					]
+					\def\Density{1.}
+					
+					\addlegendentry{$v(t),~n=1$}
+					\addplot[samples=501,domain=\OneDay:1e9,webgreen]
+					{\RelSpeed} ;\label{plot_loo}\OneDay
+					
+					\def\Density{2.5}
+					\addplot[samples=501,domain=\OneDay:1e9,webred]
+					{\RelSpeed} ;\label{plot_loo}
+					\addlegendentry{$v(t),~n=2.5$}
+					
+					\def\Density{5.}
+					\addplot[samples=501,domain=\OneDay:1e9,webred]
+					{\RelSpeed} ;\label{plot_loo}
+					\addlegendentry{$v(t),~n=5$}
+					
+					\end{axis}
+					
+					
+					\end{tikzpicture}
+				}
+				
+			}&
+			\only<2->
+			{
+				\maxsizebox{.5\textwidth}{!}
+				{
+					
+					\def\alpha{(1-\beta)}
+					
+					\def\N{(x/0.0000001)}
+					%	\def\PayloadPerformance{x/(\N*(1.-\alpha)+ \alpha)}%(\N*(1-\alpha)+\alpha)}
+					\def\PayloadPerformance{x/(\alpha+100000000*x*\beta)}
+					\def\betaN{1e-10}
+					\def\betaA{1e-8}
+					\def\betaB{1e-7}
+					\def\betaC{1e-6}
+					\def\betaD{1e-5}
+					
+					\begin{tikzpicture}%[scale=1.5]
+					\begin{axis}[
+					%  axis y line*=left,
+					title={\huge Payload performances of N cores @100GFlops},
+					width=\textwidth,
+					%	title style={at={(0.5,1.05)},anchor=north},
+					%	title = {Relativistic speed of body accelerated by 'g'}, 
+					xlabel=\huge Nominal performance (EFlops),
+					ylabel=\huge Payload performance (EFlops),
+					ymin=1e-4, ymax=2,
+					xmin=1e-4, xmax=2,
+					xmode=log,
+					log basis x=10,
+					ymode=log,
+					log basis y=10,
+					legend style={
+						cells={anchor=west},
+						legend pos={north west},
+					},
+					]
+					\def\beta{\betaN}
+					
+					\addlegendentry{1-$alpha=\betaN$}
+					\addplot[samples=501,domain=1e-4:2,webred]
+					{\PayloadPerformance} ;%\label{plot_0}
+					\def\beta{\betaA}
+					
+					\addlegendentry{1-$alpha=\betaA$}
+					\addplot[samples=501,domain=1e-4:2,webgreen]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaB}
+					
+					\addlegendentry{1-$alpha=\betaB$}
+					\addplot[samples=501,domain=1e-4:2,webgreen]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaC}
+					
+					\addlegendentry{1-$alpha=\betaC$}
+					\addplot[samples=501,domain=1e-4:2,webgreen]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaD}
+					
+					\addlegendentry{1-$alpha=\betaD$}
+					\addplot[samples=501,domain=1e-4:2,webblue]
+					{\PayloadPerformance} ;%\label{plot_0}
+					\end{axis}
+					
+					
+					\end{tikzpicture}
+					
+			}}\\
+		\end{tabular}
+	\caption{A body accelerated by a constant gravitational force cannot exceed the speed of light.
+The performance of a parallelized sequential computing system 
+		cannot exceed its specific 'speed of light'.
+				The performance is sensitive to the amount of computation (including data length) and communication. Science is \textbf{not} limiting below EPlops performance.
+			\label{fig:LingtSpeedVsPerformance}
+		}
+	\end{figure*}
+}
+}
+
+\MEframe{The resulting performance and its contributions}
+{%
+  Recall that in general:
+  
+			\Large $ P(N) = \frac{N\cdot P_{single}}{\boxed{\textcolor{red}{N\cdot \left(1-\alpha\right)+\alpha}}}$
+			
+
+  This enables (at least theoretically) to consider 
+  the contributions separately, and if some contrution is dominant,
+  to see its effect in measurement data:  
+   	
+   	\maxsizebox{\columnwidth}{!}
+   	{
+			\Large $ P(N) = \frac{N\cdot P_{single}}{\boxed{\textcolor{red}{N}\cdot \left(1-\alpha_{Science}  
+						\textcolor{red}{-\alpha_{Net} -\alpha_{Compute}} -\alpha_{Others}    \right)+\approx 1}}$
+					}
+	
+}
+
+
+\MEsection{The final cut}
+
+\MEframe{The effect of calculations/measuring}
+{%
+	\maxsizebox{\textwidth}{!}
+	{
+		\begin{tabular}{p{.5\textwidth}p{.5\textwidth}}
+			\only<1->
+			{
+				
+				\maxsizebox{.5\textwidth}{!}
+				{
+					
+					\def\alpha{(1-\beta)}
+					
+					\def\N{(x/0.0000001)}
+					%	\def\PayloadPerformance{x/(\N*(1.-\alpha)+ \alpha)}%(\N*(1-\alpha)+\alpha)}
+					\def\PayloadPerformance{x/(\alpha+15000000*x*\beta)}
+					\def\betaN{1e-10}
+					\def\betaA{0.19 e-7}
+					\def\betaB{1.465 e-7}
+					\def\betaC{0.488 e-7}
+					\def\betaD{208 e-7}
+					
+					\begin{tikzpicture}%[scale=1.5]
+					\begin{axis}[
+					%  axis y line*=left,
+					title={\huge Payload performances @Summit},
+					width=\textwidth,
+					%	title style={at={(0.5,1.05)},anchor=north},
+					%	title = {Relativistic speed of body accelerated by 'g'}, 
+					xlabel=\huge Nominal performance (EFlops),
+					ylabel=\huge Payload performance (EFlops),
+					ymin=1e-4, ymax=2,
+					xmin=1e-4, xmax=2,
+					xmode=log,
+					log basis x=10,
+					ymode=log,
+					log basis y=10,
+					legend style={
+						cells={anchor=west},
+						legend pos={north west},
+					},
+					]
+					\def\beta{\betaD}
+					
+					\addlegendentry{1-$alpha=HPCG-FP64$}
+					\addplot[thick,samples=501,domain=1e-4:2,webblue]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaC}
+					\addlegendentry{1-$alpha=HPL-FP64 $}
+					\addplot[thick,samples=501,domain=1e-4:2,webgreen]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaB}
+					
+					\addlegendentry{1-$alpha=HPL-FP16$}
+					\addplot[thick,samples=501,domain=1e-4:2,webgreen]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaA}
+					
+					\addlegendentry{1-$alpha=HPL-FP0$}
+					\addplot[thick,samples=501,domain=1e-4:2,orange]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaN}
+					
+					\addlegendentry{1-$alpha=Science$}
+					\addplot[thick,samples=501,domain=1e-4:2,webred]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\addplot[only marks,  mark=o,  mark size=5, thick] plot coordinates {
+						(0.2008,0.148) %Summit @HPL-FP64
+						%	(0.2008,0.445) %Summit @HPL-FP16
+						(0.602,0.445) %Summit @HPL-FP16
+						(0.2008,0.00293) %Summit @HPCG-FP64
+					};
+					
+					\end{axis}
+					
+					
+					\end{tikzpicture}
+					
+				}
+			}
+			&
+			\only<2->
+			{
+				\maxsizebox{.5\textwidth}{!}
+				{
+					
+					\def\alpha{(1-\beta)}
+					
+					\def\N{(x/0.0000001)}
+					%	\def\PayloadPerformance{x/(\N*(1.-\alpha)+ \alpha)}%(\N*(1-\alpha)+\alpha)}
+					\def\PayloadPerformance{x/(\alpha+15000000*x*\beta)}
+					\def\betaN{1e-10}
+					\def\betaA{0.19 e-7}
+					\def\betaB{1.465 e-7}
+					\def\betaC{0.488 e-7}
+					\def\betaD{208 e-7}
+					
+					\begin{tikzpicture}%[scale=1.5]
+					\begin{axis}[
+					%  axis y line*=left,
+					title={\huge Payload performances @Exascale},
+					width=\textwidth,
+					%	title style={at={(0.5,1.05)},anchor=north},
+					%	title = {Relativistic speed of body accelerated by 'g'}, 
+					xlabel=\huge Nominal performance (EFlops),
+					ylabel=\huge Payload performance (EFlops),
+					ymin=1e-4, ymax=1000,
+					xmin=1e-4, xmax=5000,
+					xmode=log,
+					log basis x=10,
+					ymode=log,
+					log basis y=10,
+					legend style={
+						cells={anchor=west},
+						legend pos={north west},
+					},
+					]
+					\def\beta{\betaD}
+					
+					\addlegendentry{1-$alpha=HPCG-FP64$}
+					\addplot[thick,samples=501,domain=1e-4:10000,webblue]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaC}
+					\addlegendentry{1-$alpha=HPL-FP64 $}
+					\addplot[thick,samples=501,domain=1e-4:10000,webgreen]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaB}
+					
+					\addlegendentry{1-$alpha=HPL-FP16$}
+					\addplot[thick,samples=501,domain=1e-4:10000,webgreen]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaA}
+					
+					\addlegendentry{1-$alpha=HPL-FP0$}
+					\addplot[thick,samples=501,domain=1e-4:10000,orange]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\def\beta{\betaN}
+					
+					\addlegendentry{1-$alpha=Science$}
+					\addplot[thick,samples=501,domain=1e-4:10000,webred]
+					{\PayloadPerformance} ;%\label{plot_0}
+					
+					\addplot[only marks,  mark=o,  mark size=5, thick] plot coordinates {
+						(0.2008,0.148) %Summit @HPL-FP64
+						%	(0.2008,0.445) %Summit @HPL-FP16
+						(0.602,0.445) %Summit @HPL-FP16
+						(0.2008,0.00293) %Summit @HPCG-FP64
+					};
+					
+					
+					\end{axis}
+					
+					
+					\end{tikzpicture}
+					
+				}
+			}
+		\end{tabular}
+	}
+	\only<1>{A supercomputer has different limiting factors.
+		
+	}
+	\only<2->{
+		At exascale, the science (the speed of light) becomes a limiting factor.
+		
+		The performance of the computing system behaves as a quantal system:
+		as soon as you start to measure the performance, the contribution of the measuring device (benchmark program) starts to dominate
+	}
+	
+}
+
+
+\subsection{The quantal nature of time}
+
+\MEframe[shrink]{The brain simulation and the quantal nature of time}
+{
+	
+	The processor-based brain simulation provides an
+	"experimental evidence"~\cite{VeghBrainAmdahl:2019} that the time in computing shows quantal behavior, analogously with the energy in physics. When simulating neurons using processors,
+	the ratio of the simulated (biological) time and the processor time used to simulate the biological effect may considerably differ, so to avoid working with "signals from the future", periodic synchronization is required that introduces a special "biological clock cycle".
+	The role of this clock period is the same as that of the clock signal in the clocked digital electronics: what happens in this period, it happens "at the same time"\footnote{This periodic synchronization will be a limiting factor in large-scale utilization of processor-based artificial neural chips~\cite{IntelLoihi:2018}, although thanks to the cca. thousand times higher "single-processor performance", only when approaching the computing capacity of (part of) the brain.}.
+	
+	The brain simulation (and in somewhat smaller scale: artificial neural computing) requires intensive data exchange between the parallel threads:
+	the neurons are expected to tell the result of their neural calculations periodically to thousands of fellow neurons.
+	The commonly used $1~ms$ "grid time" is,
+	however, $10^6$ times longer than the
+	$1~ns$ clock cycle common in the digital electronics~\cite{NeuralNetworkPerformance:2018}.
+	Correspondingly, its influence on the performance is noticeable.
+	Figure~\ref{fig:AlphaContribBenchmark}
+	.C demonstrates what happens if the clock cycle is 5000 times longer than in Figure~\ref{fig:AlphaContribBenchmark}
+	.B:
+	it causes a drastic decrease in the achievable performance and strongly shifts the performance breakdown toward lower nominal performance values.
+	As shown, the "quantal nature of time" in computing
+	changes the behavior of the performance drastically.
+	
+	
+	
+	In addition, the thousands times more communication contributes considerably to the non-payload sequential-only fraction,
+	so it degrades further the efficacy of the computing system.  What is worse, they are expected to send their messages at the end of the grid time period, causing a huge burst of messages.
+}
+
+\subsection{The communicational collapse}
+\MEframe[shrink]{The communicational collapse}
+{
+	
+	\MEfigure{fig/CommunicationCollapse.pdf}
+	{Demonstrating the communicational collapse at large workloads}
+	{fig:CommunicationCollapse}{\protect{\cite{CommunicationCollapse:2018}}}{}
+	
+	
+	
+	
+	\ao{
+		Not only the achievable performance is by orders of magnitude lower,
+		but also the "communicational collapse"~\cite{CommunicationCollapse:2018} (see also~\cite{ScalingParallel:1993}) occurs at orders of
+		magnitude lower nominal performance. 
+		This is the reason why less than one percent of the planned capacity
+		can be achieved even by the custom built large scale ANN simulators~\cite{SpiNNaker:2013}.
+		Similarly, the SW and HW based simulators show up the same limitation~\cite{NeuralNetworkPerformance:2018,VeghBrainAmdahl:2019}.
+		This is why only a few dozens of thousands of neurons can be simulated on processor-based brain simulators (including both the many-thread software simulators and the purpose-built brain simulator)~\cite{NeuralNetworkPerformance:2018}.
+		The memory of extremely large supercomputers can be populated with objects simulating neurons~\cite{SpikingPetascale2014}, but as soon as they need to communicate,
+		the task collapses as predicted in Figs.~\ref{fig:AlphaContribBenchmark} and~\ref{fig:CommunicationCollapse}. This is indirectly underpinned~\cite{NeuralScaling2017} by that the different handling
+		of the threads changes the efficacy sensitively and that the time required for more detailed simulation increases non-linearly~\cite{NeuralNetworkPerformance:2018,VeghBrainAmdahl:2019}.
+	}
+}
+
+
+\MEsection{A possible way out}
+\MEframe{The Explicitly Many-Processor Approach}
+{% 
+	We really need a \textit{modern computing paradigm}. Major items:
+	\begin{itemize}
+		\item the processing capability is one of the resources 
+		\item not the \textbf{same} processor must do 
+		every single operation
+		\item flexibly adapt the architecture to the task
+		\item communication with other processing units is a native feature
+		\item the hardware and software exist only together
+		\item the tasks are broken into appropriately sized and logically interconnected fragments
+		\item the code fragments are to be executed in parallel, provided both data dependence and hardware availability enables it
+		\item the principle of locality is applied to memory handling at hardware level, through direct wiring and hierarchic buses
+	\end{itemize}
+}

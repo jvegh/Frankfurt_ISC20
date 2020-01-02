@@ -1,0 +1,172 @@
+\documentclass[border= 5mm]{standalone}
+\usepackage{pgfplots}
+\usepackage{tikz}   
+\usepackage{animate}
+\usetikzlibrary{
+	shapes,
+	positioning,
+	arrows,
+	fit,
+	backgrounds,
+	calc,
+	tikzmark,
+	arrows.meta,
+	shadows,
+	automata}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.13} 
+\usepackage{pgfplotstable}
+   \definecolor{webgreen}{rgb}{0,.5,0}
+\definecolor{webblue}{rgb}{0,0,.8}
+\definecolor{webred}{rgb}{0.8, 0, 0}   
+\definecolor{webbrown}{rgb}{.6,0,0}
+\definecolor{webyellow}{rgb}{0.98,0.92,0.73}
+\definecolor{webgray}{rgb}{.753,.753,.753}
+
+
+\pgfplotscreateplotcyclelist{my color list}{%
+	solid, color=webblue, every mark/.append style={solid, fill=webblue}, mark=*\\%
+	densely dashdotted, color=webgreen, every mark/.append style={solid, fill=webred},mark=diamond*\\%
+	densely dotted, color=webbrown, every mark/.append style={solid, fill=webgreen}, mark=triangle*\\%
+	loosely dashed, color=webred, every mark/.append style={solid, fill=webbrown},mark=*\\%
+	dotted, color=webblue, every mark/.append style={solid, fill=webyellow}, mark=square*\\%
+	densely dotted, color=webgreen, every mark/.append style={solid, fill=gray}, mark=otimes*\\%
+	dashed, color=webbrown, every mark/.append style={solid, fill=gray},mark=diamond*\\%
+	densely dashed, every mark/.append style={solid, fill=gray},mark=square*\\%
+	dashdotted, every mark/.append style={solid, fill=gray},mark=otimes*\\%
+	dashdotdotted, every mark/.append style={solid},mark=star\\%
+}
+
+
+\begin{document}
+	
+	
+%	\begin{figure*}
+		%	\maxsizebox{\textwidth}{!}
+		\begin{tikzpicture}[scale=0.95]
+		\begin{axis}
+		[
+		%	title={$R_{Max}$ of Taihulight supercomputer in function of $R_{Peak}$ with different benchmarks},
+		width=\textwidth,
+		cycle list name={my color list},
+		legend style={
+			cells={anchor=east},
+			legend pos={north west},
+		},
+		xmin=2010, xmax=2020,% x scale
+		ymin=.5e0, ymax=230, % y scale
+		xlabel={years},
+		/pgf/number format/1000 sep={},
+		ylabel={$R_{Peak}$  (petaFLOPS)},
+		%		xmode=log,
+		%		log basis x=10,
+		ymode=log,
+		log basis y=10,
+		]
+		\addplot[only marks,  mark=*,  color=webred, mark size=3, thick] plot coordinates {
+			(2018.0,122.3) %06/2018
+			(2018.5,143.5) %11/2018
+			(2019.0,148.6) %06/2019
+			(2019.5,148.6) %11/2019
+		};
+		\addlegendentry{Summit}
+		\addplot[only marks,  mark=*,  color=webgreen, mark size=3, thick] plot coordinates {
+			(2018.0,71.6) %06/2018
+			(2018.5,94.6) %11/2018
+			(2019.0,94.6) %06/2019
+			(2019.5,94.6) %06/2019
+		};
+		\addlegendentry{Sierra}
+		\addplot[only marks,  mark=*,  mark size=3, thick] plot coordinates {
+			(2015.5,8.101) %11/2015
+			(2016.0,8.101) %06/2016
+			(2016.5,8.101) %11/2016
+			(2017.0,8.101) %06/2017
+			(2017.5,14.137) %11/2017
+			(2018.0,14.137) %06/2018
+			(2018.5,20.159) %11/2018
+			(2019.0,20.159) %06/2019
+			(2019.5,20.159) %11/2019
+		};
+		\addlegendentry{Trinity}
+		\addplot[only marks,  mark=square,  color=webblue, mark size=3, thick] plot coordinates {
+			(2016.0,93.015) %06/2016
+			(2016.5,93.015) %11/2016
+			(2017.0,93.015) %06/2017
+			(2017.5,93.015) %11/2017
+			(2018.0,93.015) %06/2018
+			(2018.5,93.015) %11/2018
+			(2019.0,93.015) %06/2019
+			(2019.5,93.015) %11/2019
+		};
+		\addlegendentry{Taihulight}
+		\addplot[only marks,  mark=square,  color=webgreen, mark size=3, thick] plot coordinates {
+			(2013.0,33.863) %06/2013
+			(2013.5,33.863) %11/2013
+			(2014.0,33.863) %06/2014
+			(2014.5,33.863) %11/2014
+			(2015.0,33.863) %06/2015
+			(2015.5,33.863) %11/2015
+			(2016.0,33.863) %06/2016
+			(2016.5,33.863) %11/2016
+			(2017.0,33.863) %06/2017
+			(2017.5,33.863) %11/2017
+			(2018.0,61.445) %06/2018
+			(2018.5,61.445) %11/2018
+			(2019.0,61.445) %06/2019
+			(2019.5,61.445) %11/2019
+		};
+		\addlegendentry{Tianhe-2A}
+		\addplot[only marks,  mark=diamond*,  color=webgreen, mark size=3, thick] plot coordinates {
+			(2011.0,8.162) %06/2011
+			(2011.5,10.51) %11/2013
+			(2012.0,10.51) %06/2014
+			(2012.5,10.51) %11/2012
+			(2013.0,10.51) %06/2013
+			(2013.5,10.51) %11/2013
+			(2014.0,10.51) %06/2014
+			(2014.5,10.51) %11/2014
+			(2015.0,10.51) %06/2015
+			(2015.5,10.51) %11/2015
+			(2016.0,10.51) %06/2016
+			(2016.5,10.51) %11/2016
+			(2017.0,10.51) %06/2017
+			(2017.5,10.51) %11/2017
+			(2018.0,10.51) %06/2018
+			(2018.5,10.51) %11/2018
+			(2019.0,10.51) %06/2019
+			(2019.5,10.51) %11/2019
+		};
+		\addlegendentry{K computer}
+		\addplot[only marks,  mark=diamond*,  color=webred, mark size=3, thick] plot coordinates {
+			(2017.5,19.136) %11/2017
+			(2017.0,1.677) %06/2017
+		};
+		\addlegendentry{Gyoukou}
+		\addplot[only marks,  mark=o,  mark size=3, thick] plot coordinates {
+			(2012.5,0.2164) %11/2012
+			(2013.0,0.6269) %06/3013
+			(2013.5,6.261) %11/2013
+			(2014.0,6.261) %06/2014
+			(2014.5,6.261) %11/2014
+			(2015.0,6.261) %06/2015
+			(2015.5,6.261) %11/2015
+			(2016.0,6.261) %06/2016
+			(2016.5,9.779) %11/2016
+			(2017.0,19.590) %06/2017
+			(2017.5,19.590) %11/2017
+			(2018.0,19.590) %06/2018
+			(2018.5,21.230) %11/2018
+			(2019.0,21.23) %06/2018
+			(2019.5,21.23) %11/2018
+		};
+		\addlegendentry{Piz Daint}
+		\end{axis}
+		\end{tikzpicture}
+%		\caption{The $R_{Max}$ payload performance in function of the year of construction for different configurations.
+%		}
+%		\label{fig:SupercompSpeedOfLight}
+%	\end{center}
+%\end{figure}
+
+\end{document}

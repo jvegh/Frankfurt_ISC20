@@ -1,0 +1,138 @@
+\documentclass[article]{standalone}               
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{adjustbox}
+\definecolor{webgreen}{rgb}{0,.5,0}
+\definecolor{webbrown}{rgb}{.6,0,0}
+\definecolor{webyellow}{rgb}{0.98,0.92,0.73}
+\definecolor{webgray}{rgb}{.753,.753,.753}
+\definecolor{webblue}{rgb}{0,0,.8}
+\definecolor{webgreen}{rgb}{0, 0.5, 0} % less intense green
+\definecolor{webred}{rgb}{0.5, 0, 0}   % less intense red
+
+\pgfplotscreateplotcyclelist{my color list}{%
+	solid, color=webblue, every mark/.append style={solid, fill=webblue}, mark=*\\%
+	densely dashdotted, color=webred, every mark/.append style={solid, fill=webred},mark=diamond*\\%
+	densely dotted, color=webgreen, every mark/.append style={solid, fill=webgreen}, mark=triangle*\\%
+	%	loosely dashed, color=webbrown, every mark/.append style={solid, fill=webbrown},mark=square,fill=webgreen!20\\%
+	%dotted, color=webbrown, every mark/.append style={solid, fill=webybrown}, mark=square*\\%
+	densely dotted, every mark/.append style={solid, fill=gray}, mark=otimes*\\%
+	dashed, every mark/.append style={solid, fill=gray},mark=diamond*\\%
+	densely dashed, every mark/.append style={solid, fill=gray},mark=square*\\%
+	dashdotted, every mark/.append style={solid, fill=gray},mark=otimes*\\%
+%	dashdotdotted, every mark/.append style={solid},mark=star\\%
+	solid, color=webred, every mark/.append style={solid, fill=webred}, mark=o\\%
+	densely dashdotted, color=webgreen, every mark/.append style={solid, fill=webgreen},mark=diamond*\\%
+}
+%% As of 2018 November
+\begin{filecontents*}{Top500-0-Gain.csv}
+a,b,c,d,e,
+1993, 8.55E+02, 4.20E+02, 4.42E+02, 1.97E+03,
+1994, 1.30E+04, 1.54E+02, 8.35E+02, 1.30E+04,
+1995, 3.59E+02, 1.30E+04, 1.45E+04, 1.45E+04,
+1996, 2.60e+3,  2.56e+2, 1.30e+4, 1.45e+4,
+1997, 2.01e+4, 3.06e+2, 7.27e+3, 2.01e+4,
+1998, 2.49e+4, 2.37E+03, 1.62E+03, 2.49E+04,
+1999, 1.94E+04, 6.75E+03, 2.35E+03, 1.94E+04,
+2000, 2.77E+04, 7.27E+03, 6.75E+03, 2.77E+04,
+2001, 1.17E+04, 5.04E+03, 2.77E+04, 2.77E+04,
+2002, 3.60E+04, 1.17E+04, 8.58E+03, 3.60E+04,
+2003, 3.60E+04, 1.72E+04, 5.13E+03, 3.60E+04,
+2004, 3.60E+04, 2.72E+04, 1.72E+04, 3.60E+04,
+2005, 1.92E+05, 1.60E+05, 5.80E+04, 1.92E+05,
+2006, 4.26E+05, 1.60E+05, 5.43E+04, 4.26E+05,
+2007, 4.26E+05, 1.33E+05, 1.03E+05, 4.26E+05,
+2008, 3.59E+05, 8.62E+05, 6.91E+05, 8.62E+05,
+2009, 4.07E+05, 4.93E+05, 1.37E+06, 1.37E+06,
+2010, 6.89E+05, 8.95E+04, 3.82E+05, 6.89E+05,
+2011, 7.32E+06, 2.24E+05, 6.89E+05, 7.32E+06,
+2012, 6.74E+06, 9.62E+06, 3.37E+06, 9.62E+06,
+2013, 5.02E+06, 1.04E+06, 9.12E+06, 9.62E+06,
+2014, 5.02E+06, 1.04E+06, 9.12E+06, 9.62E+06,
+2015, 5.02E+06, 1.04E+06, 9.12E+06, 9.62E+06,
+2016, 3.06E+07, 5.02E+06, 1.04E+06, 3.06E+07,
+2017, 3.06E+07, 5.02E+06, 1.24E+06, 3.06E+07, 
+2018, 6.01e+06, 4.79e+06, 3.06E+07, 3.06E+07,
+\end{filecontents*}
+%% As of 2018 November
+\begin{filecontents*}{Top500-0-Gain-HPCG.csv}
+	a,b,c,d,e,
+	2017,   4.10E04, 3.33E+04, 1.24E+04, 4.10E04, 
+	2017.5, 5.59E04, 4.1E+04, 3.98E+04,5.59E04, 
+	2018,  5.59E04, 4.1E+04, 3.98E+04,5.59E04, 
+\end{filecontents*}
+
+\begin{document}
+	
+	%\begin{figure}
+	\maxsizebox{\columnwidth}{!}
+	{
+\begin{tikzpicture}[scale=.95]
+\begin{axis}
+[
+	title={The roofline of performance gain of supercomputers},
+width=\textwidth,
+cycle list name={my color list},
+legend style={
+	cells={anchor=east},
+	legend pos={north west},
+},
+xmin=1993, xmax=2020,% x scale
+ymin=1e2, ymax=5e8, % y scale
+xlabel=Year,
+/pgf/number format/1000 sep={},
+ylabel=$Performance~gain$,
+ymode=log,
+log basis x=2,
+]
+\addplot table [x=a, y=b, col sep=comma] {Top500-0-Gain.csv};
+\addlegendentry{$1st~by~R_{Max}^{HPL}$}
+\addplot table [x=a, y=c, col sep=comma] {Top500-0-Gain.csv};
+\addlegendentry{$2nd~by~R_{Max}^{HPL}$}
+\addplot table [x=a, y=d, col sep=comma] {Top500-0-Gain.csv};
+\addlegendentry{$3rd~by~R_{Max}^{HPL}$}
+\addplot table [x=a, y=e, col sep=comma] {Top500-0-Gain.csv};
+\addlegendentry{$Best~by~\alpha_{eff}^{HPL}$}
+
+\addplot table [x=a, y=b, col sep=comma] {Top500-0-Gain-HPCG.csv};
+\addlegendentry{$1st~by~R_{Max}^{HPCG}$}
+\addplot table [x=a, y=c, col sep=comma] {Top500-0-Gain-HPCG.csv};
+\addlegendentry{$2nd~by~R_{Max}^{HPCG}$}
+\addplot table [x=a, y=d, col sep=comma] {Top500-0-Gain-HPCG.csv};
+\addlegendentry{$3rd~by~R_{Max}^{HPCG}$}
+\addplot table [x=a, y=d, col sep=comma] {Top500-0-Gain-HPCG.csv};
+\addlegendentry{$Best~by~R_{Max}^{HPCG}$}
+
+
+\draw[thick,webgreen] (1993,2e4) -- (2010,1.5e7);
+\draw[thick,webgreen] (2010,1.5e7) -- (2019,1.5e7);
+%\addlegendentry{$Roofline^{HPL}$}
+
+
+\draw[thick,webblue] (2016,8e04) -- (2019,8e04);
+\draw[thick,webblue,dotted] (2012.5,8e04) -- (2016,8e04);
+
+
+\addplot[only marks,  mark=*,  mark size=2, very thick] plot coordinates {
+	    (2016,39840) %K computer at HPCG
+	    (2016,7576) %JUQUEEN computer at HPCG	
+};
+		\draw[very thick,webblue,dashed] (2012,576) -- (2018,576);
+\addplot[only marks,  mark=*, color=black, mark size=3, very thick] plot coordinates {
+	(2016,576) %JUQUEEN computer at brain		
+};
+\addlegendentry{$Brain~simulation$}
+
+%\addlegendentry{$Roofline^{HPCG}$}
+%\draw[thick,red] (2014,3e6) circle(1.5cm);
+%ellipse (3 and 1e4);
+\end{axis}
+\end{tikzpicture}
+	}
+	%	\caption{Dependence of payload supercomputer performance on the nominal performance for the TOP10
+	%		supercomputers (as of November 2018) in case of utilizing the HPL benchmark. The actual positions are marked on the diagram lines.
+	%	\label{SupercomputerTOP10Prediction}
+	
+	%\end{figure}
+	
+\end{document}

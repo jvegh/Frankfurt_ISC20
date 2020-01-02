@@ -1,0 +1,69 @@
+
+	\newglossaryentry{computer}
+	{
+		name={computer},
+		description={is a programmable machine that receives input,
+			stores and manipulates data, and provides
+			output in a useful format}
+	}
+	
+	\newglossaryentry{assembly nyelv}{name={assembly nyelv},
+		description={a legalacsonyabb szintű,	ember által még olvasható programnyelv}}
+	
+	\newglossaryentry{program sor}{name={program sor},
+		description={a program forrásnyelvi kódjának egy sora}}
+	
+	\newglossaryentry{konzol ablak}{name={konzol ablak},
+			description={Az operációs rendszer által a programunk számára
+				rendelkezésre bocsátott ablak}}
+		
+		\newglossaryentry{nevter}{name={névtér},
+			description={az névtér}}
+		
+		\newglossaryentry{lebegopontos szam}{name={lebegőpontos szám},
+			description={olyan szám, amelynek törtrésze is van}}
+		
+
+
+	\newacronym{ADT}{ADT}{Abstract Data Type}
+	\newacronym{ALU}{ALU}{Arithmetic/Logic Unit}
+	\newacronym{DRAM}{DRAM}{Dynamic Random Access Memory}
+	\newacronym{CPU}{CPU}{Central Processing Unit}
+	\newacronym{ESL}{ESL}{Electronic System-Level (design)}
+	\newacronym{FPGA}{FPGA}{Field Programmable Gate Array}
+	\newacronym{IC}{IC}{Integrated Circuit}
+	\newacronym{PC}{PC}{Program counter}
+	\newacronym{RAM}{RAM}{Random Access Memory}
+	\newacronym{RTL}{RTL}{Register Transfer Level}
+	\newacronym{SRAM}{SRAM}{Static Random Access Memory}
+	\newacronym{TLM}{TLM}{Transaction-Level Modeling}
+	\newacronym{USB}{USB}{Universal Serial Bus}
+
+  \ifthenelse{\equal{\LectureLanguage}{magyar}}
+  { % % implement Hungarian documenting
+	\newacronym{DUT}{DUT}{a vizsgálandó egység (Device Under Test)}
+	\newacronym{FIFO}{FIFO}{olyan memória, amelyből az elsőnek 
+	beírt tartalmat olvashatjuk ki először, (First In First Out)}
+	\newacronym{HDL}{HDL}{hardver leíró nyelv, (Hardware Description Language)}
+	\newacronym{HW}{HW}{hardver}
+	\newacronym{mutex}{mutex}{kizárólagos használatot 
+	lehetővé tevő primitív}
+	\newacronym{SCV}{SCV}{ SystemC Verification Library}
+	\newacronym{STL}{STL}{Standard Template Library}
+	\newacronym{SystemC}{SystemC}{Osztálykönyvtár és nyelv
+	rendszerszintű szimulációk készítéséhez}
+	\newacronym{SW}{SW}{szoftver}
+}
+{}
+  \ifthenelse{\equal{\LectureLanguage}{english}}
+  { % % implement Hungarian documenting
+	\newacronym{DUT}{DUT}{Device Under Test}
+	\newacronym{FIFO}{FIFO}
+	{memory from which one can read the content written first}
+	\newacronym{HDL}{HDL}{HDL}
+	\newacronym{HW}{HW}{hardware}
+	\newacronym{mutex}{mutex}{a primitive enabling exclusive utilization of stg}
+	\newacronym{SCV}{SCV}{ SystemC Verification Library}
+	\newacronym{SW}{SW}{software}
+}
+{}

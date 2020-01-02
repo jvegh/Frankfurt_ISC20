@@ -1,0 +1,112 @@
+%%% This is the Overview of the ISC-2020 Frankfurt 2nd tutorial
+
+\MEchapter[Overview]{Overview of the tutorial B}
+\MESetListingFormat[basicstyle={\ttfamily\color{black}\normalsize}]{SystemC}
+
+\MEsection[Introduction]{Intro to the parallelized sequential computing}
+%%%%%%%%%%%%%%%%%%%%%%%%
+\MEframe[shrink]{Lessons}
+{
+\articleonly{After that the dynamic growing of the single-processor performance
+	has practically stalled about two decades ago~\cite{ComputingPerformanceBook:2011},
+	the only way to achieve the required high computing performance
+	remained parallelizing the work of a very large number of
+	sequentially working single processors. 
+	However,} as was very early predicted~\cite{AmdahlSingleProcessor67} and decades later
+	experimentally confirmed~\cite{ScalingParallel:1993},
+	the scaling of the parallelized computing is not linear.
+	Even, "\textit{there comes a point when using more processors \dots actually increases the execution time rather than reducing it}"~\cite{ScalingParallel:1993}. The parallelization
+	operation has its own rules of game and has its inherent
+	performance limitations~\cite{VeghPerformanceWall:2019,VeghRoofline:2019}.
+\articleonly{	The present commonly used computing paradigm (and its technical implementation) also limits the performance of supercomputers~\cite{VeghModernParadigm:2019}.
+} 
+
+}% History
+
+\MEframe[shrink]{Expectations}
+{
+
+The expectations against supercomputers are excessive.
+\articleonly{
+Although even the Eflops payload performance has not yet been achieved, already the implementation of the Zflops supercomputers are planned~\cite{ChinaExascale:2018,ExascaleGrandfatherHPC:2019}.
+It looks like that in the feasibility studies  an analysis
+whether some inherent performance bound exists remained out of sight either in USA~\cite{NSA_DOE_HPC_Report_2016,Scienceexascale:2018} or in  EU~\cite{EUActionPlan:2016}
+or in Japan~\cite{JapanExascale:2018} or in China~\cite{ChinaExascale:2018}.
+ The confusion is growing:
+some "must work" world-class supercomputers (like Gyoukou, Aurora, SpiNNaker) are failed.
+In addition to the previously existing "\textit{two different efficiencies of supercomputers}"~\cite{DifferentBenchmarks:2017}
+further efficiency/performance value appeared (and several more
+can easily be derived).}
+	\MEfigure{fig/Top500Performance2018.pdf}
+{The performances at the beginning of 2018~\cite{ChinaExascale:2018} }
+{fig:PEZYfraud}{}{}
+}
+
+\MEframe{Take care, ignorance is punished\dots (in Japan)}
+{
+	\articleonly{
+	Ingnorance in this fields is dangerous: "In December 2017, PEZY President Motoaki Saito, and PEZY employee, Daisuke Suzuki, were arrested on a charges of fraud – that is – padding expenses"\footnote{https://en.wikipedia.org/wiki/PEZY\_Computing}.
+	The were neither beginners not ousiders: "In 2015, computers using PEZY processors occupied the top 3 slots on the Green 500 supercomputer list"
+	In Japan, the company PEZY\footnote{BTW: The name \textbf{PEZY} is an acronym derived from the Greek derived metric prefixs \textbf{p}eta-, \textbf{e}xa-, \textbf{z}etta-, and \textbf{y}otta} expected infinitely large parallelized computing performance. 
+	Accordingly they assumed (and announced in advance) that Japan will have the \#1 supercomputer, with 0.13~Eflops.
+	Finally, Gyoukou was nominated with 0.019~Eflops and conquered slot \#4.
+	However, only 2.4M cores (out of the 19.8M cores available)  were measured.
+	
+
+	Actually, there was no fraud. They were simply not aware of that a supercomputer performance limit existed, and they attempted to exceed it.
+	"padding expenses" here means that it was assumed that some of the delivered processors were not "real" processors.
+	Actually, those processors contributed to the "dark performance" only, because of the limitations discussed in this tutorial.
+	
+	The same happened with the Aurora'18 in the US.
+	 (The Intel-Cray Aurora supercomputer which was planned for 2018 has been shifted to 2021, scaling up its performance from 180 petaFLOPS to 1 exaFLOPS\footnote{https://fuse.wikichip.org/news/478/intel-axes-knights-hill-plans-a-new-microarchitecture-for-exascale/}).
+	Initially it was communicated that "Aurora was retargeted"\cite{DOEAurora:2017} and  "" and that "DOE Witholds Details of First Exascale Supercomputer, Even as it Solicits Researchers to Apply for Early Access"\cite{AuroraEarlyScience:2017}.The exa-scale race is going on~\cite{ExaSclaRace:2018}.
+	 
+For today it was admitted that "Aurora failed". 
+	
+	and happening today with the "mystic "\footnote{https://www.scmp.com/tech/policy/article/3015997/china-has-decided-not-fan-flames-super-computing-rivalry-amid-us}
+	expected to deliver 0.2~Eflops payload performance.
+	
+	This is expected also be the fate ot the planned EU supercomputers expected to deliver 0.13-0.18~Eflops.	
+}
+	\MEfigure{fig/PEZYfraud}
+	{The news story of the PEZY fraud}
+	{fig:PEZYfraud}{}{}
+}
+
+\MEframe{The planned EU supercomputers}
+{
+	\articleonly{
+		The same happened with the Aurora'18 in the US (expected to deliver some 0.18~Eflops), and happening today with the "mystic supercomputers"\footnote{https://www.scmp.com/tech/policy/article/3015997/china-has-decided-not-fan-flames-super-computing-rivalry-amid-us} in China,
+		expected to deliver 0.2~Eflops. This is expected also be the fate ot the planned EU supercomputers expected to deliver 0.13-0.18~Eflops.
+	}
+	\MEfigure{fig/EuroHPC}
+{The planned EU supercomputers are in the "danger zone}
+{fig:EuroHPC}{}
+{}
+}
+
+\MEframe{The outline of the lessons}
+{
+	\begin{itemize}
+		\item Lesson 1 recalls the general limitations affecting
+		supercomputers based on parallelized sequential processing, 
+		as concluded from the model of parallelization.
+		Some numerical values of the limiting parameters of the technical implementations are presented.
+		\item Lesson 2 studies the history of the supercomputing using
+		the database TOP500 through calculating the "effective parallelization", and provides evidence that Amdahl's Law directs
+		the history of parallelized sequential computing. It makes clear that the resulting parallel performance has stalled
+		\item Lesson 3 scrutinizes benchmarking: what bechmarks measure, 
+		why computers have different efficiencies, how the workflow 
+		affects supercomputer performance. The effect of different technical implementations
+		(including GPGPU acceleration, half precision, OpenCAPI bus and interconnection quality) will also be demonstrated
+		\item In lesson 4 the parallel with the modern science is completed:
+		the "quantal nature of time" and "communicational collapse" 
+		will be intrduced and a surprising parallel between measuring
+		quantum states and measuring supercomputer performances
+		will be drawn. Given that the
+		major contributor to the non-parallelizable portion of the task
+		is the computation/communication itself, the further technical enhancement, without changing the principle of computation is "mission impossible": only increase the "dark performance" of the computing systems with extreme size.		
+		
+	\end{itemize}
+}
+
