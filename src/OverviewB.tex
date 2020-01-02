@@ -35,20 +35,21 @@ or in Japan~\cite{JapanExascale:2018} or in China~\cite{ChinaExascale:2018}.
  The confusion is growing:
 some "must work" world-class supercomputers (like Gyoukou, Aurora, SpiNNaker) are failed.
 In addition to the previously existing "\textit{two different efficiencies of supercomputers}"~\cite{DifferentBenchmarks:2017}
-further efficiency/performance value appeared (and several more
+further efficiency/performance value appeared\footnote{https://blogs.nvidia.com/blog/2019/06/17/hpc-ai-performance-record-summit/ (and several more
 can easily be derived).}
 	\MEfigure{fig/Top500Performance2018.pdf}
 {The performances at the beginning of 2018~\cite{ChinaExascale:2018} }
 {fig:PEZYfraud}{}{}
 }
+}
 
 \MEframe{Take care, ignorance is punished\dots (in Japan)}
 {
 	\articleonly{
-	Ingnorance in this fields is dangerous: "In December 2017, PEZY President Motoaki Saito, and PEZY employee, Daisuke Suzuki, were arrested on a charges of fraud – that is – padding expenses"\footnote{https://en.wikipedia.org/wiki/PEZY\_Computing}.
-	The were neither beginners not ousiders: "In 2015, computers using PEZY processors occupied the top 3 slots on the Green 500 supercomputer list"
+	Ingnorance in this fields is dangerous: "\textit{In December 2017, PEZY President Motoaki Saito, and PEZY employee, Daisuke Suzuki, were arrested on a charges of fraud – that is – padding expenses}"\footnote{https://en.wikipedia.org/wiki/PEZY\_Computing}.
+	They were neither beginners nor outsiders: "\textit{In 2015, computers using PEZY processors occupied the top 3 slots on the Green 500 supercomputer list}".
 	In Japan, the company PEZY\footnote{BTW: The name \textbf{PEZY} is an acronym derived from the Greek derived metric prefixs \textbf{p}eta-, \textbf{e}xa-, \textbf{z}etta-, and \textbf{y}otta} expected infinitely large parallelized computing performance. 
-	Accordingly they assumed (and announced in advance) that Japan will have the \#1 supercomputer, with 0.13~Eflops.
+	Accordingly they assumed (and announced in advance) that Japan will have the \#1 supercomputer, with about 0.13~Eflops.
 	Finally, Gyoukou was nominated with 0.019~Eflops and conquered slot \#4.
 	However, only 2.4M cores (out of the 19.8M cores available)  were measured.
 	
@@ -57,16 +58,6 @@ can easily be derived).}
 	"padding expenses" here means that it was assumed that some of the delivered processors were not "real" processors.
 	Actually, those processors contributed to the "dark performance" only, because of the limitations discussed in this tutorial.
 	
-	The same happened with the Aurora'18 in the US.
-	 (The Intel-Cray Aurora supercomputer which was planned for 2018 has been shifted to 2021, scaling up its performance from 180 petaFLOPS to 1 exaFLOPS\footnote{https://fuse.wikichip.org/news/478/intel-axes-knights-hill-plans-a-new-microarchitecture-for-exascale/}).
-	Initially it was communicated that "Aurora was retargeted"\cite{DOEAurora:2017} and  "" and that "DOE Witholds Details of First Exascale Supercomputer, Even as it Solicits Researchers to Apply for Early Access"\cite{AuroraEarlyScience:2017}.The exa-scale race is going on~\cite{ExaSclaRace:2018}.
-	 
-For today it was admitted that "Aurora failed". 
-	
-	and happening today with the "mystic "\footnote{https://www.scmp.com/tech/policy/article/3015997/china-has-decided-not-fan-flames-super-computing-rivalry-amid-us}
-	expected to deliver 0.2~Eflops payload performance.
-	
-	This is expected also be the fate ot the planned EU supercomputers expected to deliver 0.13-0.18~Eflops.	
 }
 	\MEfigure{fig/PEZYfraud}
 	{The news story of the PEZY fraud}
@@ -76,11 +67,22 @@ For today it was admitted that "Aurora failed".
 \MEframe{The planned EU supercomputers}
 {
 	\articleonly{
-		The same happened with the Aurora'18 in the US (expected to deliver some 0.18~Eflops), and happening today with the "mystic supercomputers"\footnote{https://www.scmp.com/tech/policy/article/3015997/china-has-decided-not-fan-flames-super-computing-rivalry-amid-us} in China,
-		expected to deliver 0.2~Eflops. This is expected also be the fate ot the planned EU supercomputers expected to deliver 0.13-0.18~Eflops.
+	The same happened with the Aurora'18 in the US.
+(The Intel-Cray Aurora supercomputer which was planned for 2018 has been shifted to 2021, scaling up its performance from 180 petaFLOPS to 1 exaFLOPS\footnote{https://fuse.wikichip.org/news/478/intel-axes-knights-hill-plans-a-new-microarchitecture-for-exascale/}).
+Initially it was communicated that "Aurora was retargeted"\cite{DOEAurora:2017}  and that "DOE Witholds Details of First Exascale Supercomputer, Even as it Solicits Researchers to Apply for Early Access"~\cite{AuroraEarlyScience:2017}.
+For today it was quietly admitted that "Aurora failed".
+
+
+ The same is happening today with the "mystic China supercomputers "\footnote{https://www.scmp.com/tech/policy/article/3015997/china-has-decided-not-fan-flames-super-computing-rivalry-amid-us}
+expected to deliver 0.2~Eflops payload performance.
+This is expected also be the fate ot the planned EU supercomputers expected to deliver 0.13-0.18~Eflops.	
+ The new EU supercomputers are positioned in the "death zone", see Fig.~\ref{fig:EuroHPC}.
+
+The exa-scale race is going on~\cite{ExaSclaRace:2018},
+without making the rules of the game clear. This is the target of this tutorial.
 	}
 	\MEfigure{fig/EuroHPC}
-{The planned EU supercomputers are in the "danger zone}
+{The planned EU supercomputers are in the "death zone"}
 {fig:EuroHPC}{}
 {}
 }
