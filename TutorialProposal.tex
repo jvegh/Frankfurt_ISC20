@@ -1,0 +1,223 @@
+\documentclass[preprint,12pt,authoryear]{article}
+
+
+\begin{document}
+	\title{Proposal of a tutorial for ISC High Performance 2020}
+	\author{V\'EGH, J\'anos}
+	\maketitle
+	\section{Title of the tutorial}
+	\textit{Challenges and limitations	of High Performance Computing}:\\ 
+Basic terms, benchmarking,
+workloads, interconnections, dark performance, slow learning and failed supercomputers
+\section{Tutorial author information}
+The author is a newly retired university professor, involved in computing
+since the late 70's. He immersed in the past years in the theoretical investigations of the issues of 
+performance and limitations of the parallelized sequential computing
+and he is the author of a successful model of parallelized computing.
+Using that model, he successfully interpreted in his latest publications numerous, previously not understood phenomena.
+The introduced model predicted the since that really occurred stalling of supercomputing, explained why really renewed computing paradigm
+is needed when using computing under extreme conditions.
+The research the tutorial is based upon was honored with 'Outstanding 
+Achievement Award' at the CSCI'19 in Las Vegas.
+
+\section{Abstract}
+The  the widespread
+utilization of computing, the explosion-like growing need to compute more details and in shorter time,
+the huge and growing amount of data to be processed, etc. on one side,
+stalling of the single-processor performance, the infinite variety of  computing accelerators, the appearance of clouds, fogs, supercomputers,
+remote processing, etc. on the other side, and finally the infinite variety of the
+computing tasks to be solved efficiently on those complex systems require a very good understanding of
+the terms, ideas, possibilities  and limitations of the HPC.
+The first tutorial undertakes to introduce the interested audience
+to the world of HPC, 
+providing a consistent and clear background about the basic terms
+without going into technical details,
+but calling the attention to both achievements and failures.
+The second tutorial will apply those 
+general principles to concrete systems, such as load balancing compilers, clouds, supercomputers 
+("live or dead") and AI systems. It will be shown that the phenomena  acquired when
+computing under extreme conditions, working with many-many processor systems, 
+show surprising similarity with studying the nature under extreme conditions.
+The parallels enable to figure out the limits parallel computing cannot exceed.
+Akin to the single-processor performance, the many-processor performance is also limited by the laws of nature.
+An overview of the development of the short-term computing will also be provided.
+ 
+\section{Detailed description of the tutorial content (3 pages maximum)}
+	\subsection{Overview and goals of the tutorial}
+	The goal of the two-stage tutorial is to provide an overview of 
+	the principles of HPC, without being specific in any technology.
+	The course attempts to make order in the confusing variety of terms, definitions, their interdependence, and highlights the features that define the efficacy of solving a certain computing task. It wants also to demonstrate that HPC
+	is not a panacea, it has its natural limitations.
+	
+	\subsection{Targeted audience}
+	The targeted audience is rather wide. Today virtually everyone uses
+	networked and distributed (and increasingly HPC) parallel computing, many of them dealing with it professionally. Unfortunately, the field became segmented, given that the
+	different fields develop independently, during the enhancement of the features 
+	targeting increasing the performance of HPC, some features work against each other. Also, the (engineering, marketing or business) goal to produce
+	higher numbers on some specific field of performance, sometimes cover
+	the real computing enhancement, especially in the case of complex systems.
+	
+	\subsection{Detailed outline of the tutorial '\textit{Making the basic terms and ideas of HPC clear}' (with time slots)}
+%%% Part I    
+	    \subsubsection{SPA: Around single-processor performance 45+5'}
+	    The lesson introduces the very basics: what is the Single Processor Approach (SPA, as Amdahl coined out the term), how to measure and interpret its performance (including different merits).
+	    The presentation will mention that the measurement affects
+	    the performance and its effect depends on the efficiency.
+	    It will be shown that both the laws of science and the
+	    implementation technology  limit  the achievable
+	    performance.  The lesson introduces
+	    clearly the sequential, parallel, concurrent and parallelized sequential operation modes.
+	    
+	    \subsubsection{Limitations of parallelized sequential processing 45+5'}
+	    The lesson interprets Amdahl's Law in its original 
+		spirit, and sets up a non-technical, general-purpose model.
+		It visualizes the meaning of Amdahl's Law, and points out the existence of an inherent performance limit of the sequential operation.
+		To describe the perfectness of the implementation of the implemented
+		parallelization, introduces the parameter "effective parallelization".
+		It will be shown that the efficacy decrease with the 
+		growing number of processors is caused by the principle of
+		parallelization, rather than by some engineering imperfectness.
+		The lesson introduces the "dark performance",
+		i.e. the non-payload performance of parallelized sequential systems,
+		and interprets the experience of "computing efficiency". Some surprising utilizations of Amdhal's Law as well as its abusing will also be mentioned.
+		\subsubsection{The performance of parallelization 45+5'}
+		The third lesson introduces some examples to demonstrate 
+		what is wrong with parallelization in the SPA approach
+		(i.e. when segregated processors attempt to distribute a task),
+		particularly in the many-core approach.
+		The lesson introduces different examples of the idea of
+		parallelizing sequentially working computing systems and demonstrates the effective use of the parameter "effective parallelization" on examples
+		taken from ancient times of computing (HW parallelization), compiler load balancing (SW parallelization) and using clouds (networked parallelization).
+		\subsubsection{Modern computing I 45+5'}
+	    Some surprising parallels with
+	    studying the nature under extreme conditions and using
+	    computing under extreme conditions will be discovered and demonstrated
+	    that the common reason of the similarity of the surprising
+	    phenomena in those (apparently distant) fields is
+	    the nonlinearity in extrapolating our experiences to 
+	    extreme parameter values. The goal for asking help from the science
+	    is that the consequent use of the ideas above leads to
+	    counter-intuitive conclusions and shocking results.
+	    The case is very similar to the revolution of physics
+	    more that hundred years ago: introducing the speed of light as 
+	    a speed limit or  that some measurement cannot be carried out
+	    \textit{at the same time} on a system.
+	    It will be shown that Amdahl's Law introduces a very similar
+	    performance limit for the parallelized sequentially working systems
+	    that cannot be exceeded and that the same processor cannot be
+	    equally good for single-thread performance and many-tasking performance. 
+	    
+%%% Part II	    
+	    
+
+\subsection{Detailed outline of the tutorial '\textit{Using HPC for 	supercomputing}' (with time slots)}
+
+		\subsubsection{How to achieve high performance 45+5'}
+  		The question of single-thread vs many-processor optimization
+  		is shortly touched.
+  		The need for using parallelized sequential processing is introduced
+  		and the general limitations of computing systems are recalled, 
+  		based on the model. As the model suggests, different contributions
+  		to the sequential-only portion of the tasks is detailed
+  		and their role in the final non-parallelizable portion is discussed.
+  		 Based on some published technical data,
+  		the limiting effects of the technical implementations will be discussed.
+  		
+		\subsubsection{History of performance of supercomputing 45+5'}
+  		The rigorously verified and detailed database of TOP500 supercomputers
+  		provides an excellent starting point to draw conclusions.
+  		It will be demonstrated that the lesson learned: to increase
+  		the computing performance of the system the "effective parallelization" must also be enhanced, increasing the number of
+  		processors is not sufficient. It will be demonstrated that
+  		the "effective parallelization" is a proper merit and enables
+  		to compare the supercomputers from different ages, technology, manufacturers. The analysis will make clear that 
+  		the resulting performance stalled: the implementation technology 
+  		reached its limits.
+  		
+		\subsubsection{Benchmarking performance of supercomputing 45+5'}
+		Based on the contributions, the role of the benchmarking
+		method will be discussed. The experience that "supercomputers have
+		two different efficiencies" will be interpreted. It will be shown
+		that with enhancing the technology of implementation,
+		the computation/communication itself became the major limitation of the efficacy of the supercomputing tasks. The role of the computing workflow (including HPL/HPCG, brain simulation and AI) will be discussed.
+		The validity and accuracy of the approach 
+		will also be demonstrated. The effect of different technical implementations
+		(including GPGPU acceleration, half precision, OpenCAPI bus and interconnection quality) are demonstrated. 
+		
+		
+		\subsubsection{Modern science and modern computing 45+5'}
+		The parallel with the modern science is completed:
+		it will be shown that under extreme conditions the "quantal nature
+		of time" manifests and "communicational collapse" occurs,
+		caussing demonstrative failures of supercomputers and brain simulators.
+		Also, that measuring the performance of a many-many processor
+		parallelized sequential computing system casuses a drastic  
+		change in the state of the supercomputer, in a completely analogous 
+		way with measuring the state of a quantum system.
+		Based on the investigations presented above, the short-time 
+		future of supercomputing will be predicted. Given that the
+		major contributor to the non-parallelizable portion of the task
+		is the computation/communication itself, the further technical enhancement, without changing the principle of computation is "mission impossible": only increase the "dark performance" of the computing systems with extreme size. The tutorial will convincingly demonstrate
+		the need for a new computing paradigm, and also a possible way out will be sketched. 
+	    
+	\subsection{URLs to sample slides and other material}
+	
+	The materials for the tutorial will be available in two different editions,
+	from the same (LaTeX) source.
+	The slide-show is primarily to assist the lecturer, comprises
+	all figures, annotations, citations, and relatively small amount of text, plus some keywords to keep the lecturer on the track.
+	The book-like take-away edition is extended with all explanations,
+	extensions; nearly the printed version of the lectures.
+	
+\section{Logistics}
+	\subsection{Length of the tutorial}
+	The length of both tutorials is 2$\times$3.5 hours (a half day).
+	\subsection{Percentage of content split as beginner, intermediate, advanced}
+	The contents of the first tutorial ranges from beginner level (60\%) to intermediate (40\%).
+	The content of the  second tutorial ranges from intermediate (50\%) to advanced (50\%).
+	
+	Both parts are self-contained, they can be sold independently.
+	The first tutorial covers the basics, also good as a PhD course.
+	The second tutorial is based on the contents covered in the first one,
+	but that knowledge can be acquired independently. 
+	For safety, the overview of the course will be repeated at the beginning
+	of the second course, and a bird's eye view of the contents of the first course will be provided 
+	in altogether 8-10 minutes.
+	
+	
+	 Both tutorials are useful also for technical managers.
+	
+	\subsection{Requirements for attendees}
+	The first tutorial needs only and elementary knowledge of computing, such as what is processor, networking, operating system, 
+	and hardware/software. Some knowledge of modern science (at Wikipedia level)
+	can be advantageous, but not a requirement.
+	It needs, however,  open mind, and especially 
+	forgetting bad habits and knowledge, especially about limitless 
+	parallel performance and different linear scaling methods.
+	
+	The second tutorial needs some familiarity with HPC, especially with
+	supercomputers. Some knowledge of modern science (at Wikipedia level)
+	can be advantageous, but not a requirement.
+	The basics presented in the first tutorial
+	will be applied to computing, especially to (past, present and future)
+	supercomputers, in the second tutorial.
+	
+	\subsection{Estimated number of attendees}
+	Hopefully high. The number of users who must use HPC is exponentially
+	growing and the education does not provide a proper background (or better: provides an improper background) for them
+	to be confident when choosing a concrete solution and even less when
+	specifying and developing them.
+	
+\section{Resume or CV of each presenter}
+
+Prof. Dr. Phys. J\'anos V\'egh graduated as physicist, received PhD in Physics of Electron Spectroscopy, habilitated in Computer Science, received DSc in applying informatics for data evaluation. Worked as research physicist in period 1977-2006, as University Professor in period 2006-2019. He participated in numerous projects on technical informatics, including making developments for CERN (including radiation tolerance tests of the electronics for the large experiments), Technical University of Stockholm (like developing inexpensive radiation detectors using CCD camera chips), participated in national projects like development of devices like Positron Emission Tomograph for small animals, developing FPGA-based Ethernet network backbone filtering device. As professor, he was teaching courses in technical informatics, like processor architecture, FPGA, embedded and realtime systems, networking, etc. He established education and research at the Debrecen University relating to the field of reconfigurable devices and FPGA based investigation of Ethernet networks. As a newly retired academician, he wants to continue as independent full-time researcher in his research company.
+His favorite research field is to find obstacles on the road
+towards the future computing, and at least mitigate them.
+
+\section{Travel funding request}
+As outlined above, I think the best way would be to held
+two half-day tutorial (continued from the introductory to the advanced level).
+I would be happy to receive a travel funding for a full-day tutorial.
+I am coming from Europe (Hungary) and from academia.
+
+\end{document}
